@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>People names</h2>
+  <form action="{{ url_for('people') }}" method=post>
+
+
+    {% for person in form.people %}
+    <div class="form-group {% if person.errors %} has-error {% endif %}">
+      {{ person(class_="form-control", placeholder="Player " ~ loop.index) }}
+      {% if person.errors %}
+        <span class="help-block">{{ person.errors[0] }}</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <br>
+    <input type="button" class="btn btn-lg btn-default" value="Back" onClick="history.go(-1);return true;">
+    <button type="submit" class="btn btn-lg btn-primary"  ga-on="click" ga-event-category="UI" ga-event-action="new game 2">Next</button>
+</form>
+
+{% endblock %}
