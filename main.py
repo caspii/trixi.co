@@ -4,6 +4,7 @@ import sendmail
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
 from forms import ProjectCreateForm, PeopleForm
+from model import Project
 
 
 app = Flask(__name__)
@@ -37,8 +38,21 @@ def people():
             return render_template('people.html', form=form)
     elif request.method == 'POST':
         if form.validate():
-            flash("YOU POSTED")
-        return render_template('people.html', form=form)
+            flash("Whoop! You created a project")
+            project_key = Project.new(session['project_name'])
+            return redirect('/project/' + project_key )
+        else:
+            return render_template('people.html', form=form)
+
+@app.route('/project/<project_key>')
+def project(project_key):
+    try:
+        project = Project.get_project(project_key)
+        print "Retrieved project: " + project.name
+    except Exception as e:
+        logging.exception("Project could not be retrieved")
+        abort(404)
+    return render_template('project.html')
 
 @app.route('/about')
 def about():
