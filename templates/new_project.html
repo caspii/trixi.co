@@ -1,8 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-  <div class="alert alert-info" role="alert">
-    <strong>Heads up!</strong> Don't worry, you can change all this information later on.
-  </div>
   <h2>Create your project</h2>
   <form action="{{ url_for('new') }}" method=post>
 
@@ -34,6 +31,7 @@
       {% endif %}
     </div>
 
+    <p class="text-muted">Don't worry, you can change all this information later on.</p>
 
     <button type="submit" class="btn btn-lg btn-primary"  ga-on="click" ga-event-category="UI" ga-event-action="TODO">Next</button>
 

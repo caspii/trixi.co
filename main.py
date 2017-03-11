@@ -36,7 +36,8 @@ def people():
                 form.people.append_entry()
             return render_template('people.html', form=form)
     elif request.method == 'POST':
-        flash("YOU POSTED")
+        if form.validate():
+            flash("YOU POSTED")
         return render_template('people.html', form=form)
 
 @app.route('/about')
