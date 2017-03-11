@@ -8,7 +8,7 @@ def validate_people(form, field):
             raise ValidationError('Names must be unique')
 
 class ProjectCreateForm(Form):
-    project_name = StringField('Give your project a name', [validators.Length(min=1, max=25), validators.DataRequired()])
+    project_name = StringField('Give your project a name', [validators.Length(min=1, max=40), validators.DataRequired()])
     person_count = IntegerField('Number of people on this project (not more than 10)', [validators.NumberRange(min=2, max=10)], default=2)
 
 class PeopleForm(Form):
