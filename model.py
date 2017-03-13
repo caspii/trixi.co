@@ -4,13 +4,14 @@ import base64
 import os
 
 class Person(ndb.Model):
-    name = ndb.StringProperty()  # E.g., 'home', 'work'
+    name = ndb.StringProperty()
+    active = ndb.BooleanProperty(default=True)
 
 class Project(ndb.Model):
-    date_created =          ndb.DateTimeProperty(auto_now_add=True)
-    date_altered =          ndb.DateTimeProperty(auto_now=True)
-    name =                  ndb.StringProperty(required=True)
-    people =                ndb.StructuredProperty(Person, repeated=True)
+    date_created = ndb.DateTimeProperty(auto_now_add=True)
+    date_altered = ndb.DateTimeProperty(auto_now=True)
+    name = ndb.StringProperty(required=True)
+    people = ndb.StructuredProperty(Person, repeated=True)
 
     @classmethod
     def new(cls, name, people_names):
