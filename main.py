@@ -1,6 +1,4 @@
 import logging
-import humantime
-import sendmail
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
 from forms import ProjectCreateForm, PeopleForm
@@ -10,9 +8,11 @@ from model import Project
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
+
 @app.route('/')
 def landing():
     return render_template('landing.html')
+
 
 @app.route('/new', methods=['GET', 'POST'])
 def new():
@@ -23,6 +23,7 @@ def new():
         return redirect(url_for('people'))
     else:
         return render_template('new_project.html', form=form)
+
 
 @app.route('/people', methods=['GET', 'POST'])
 def people():
@@ -46,6 +47,7 @@ def people():
         else:
             return render_template('people.html', form=form)
 
+
 @app.route('/project/<project_key>')
 def project(project_key):
     try:
@@ -56,15 +58,18 @@ def project(project_key):
         abort(404)
     return render_template('project.html')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.errorhandler(500)
 def server_error(e):
     # Log the error and stacktrace.
     logging.exception('A 500 error occurred during a request.')
     return 'An internal error occurred.', 500
+
 
 @app.errorhandler(404)
 def page_not_found(e):
