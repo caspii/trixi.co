@@ -1,11 +1,12 @@
 from google.appengine.ext import ndb
-import datetime
 import base64
 import os
+
 
 class Person(ndb.Model):
     name = ndb.StringProperty()
     active = ndb.BooleanProperty(default=True)
+
 
 class Project(ndb.Model):
     date_created = ndb.DateTimeProperty(auto_now_add=True)
