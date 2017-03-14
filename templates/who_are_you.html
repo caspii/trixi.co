@@ -17,6 +17,11 @@
 
     {{ render_radio_field(form.people) }}
 
+    {% if form.people.errors %}
+    <div class="text-danger">You must select your name!</div>
+    <br>
+    {% endif %}
+    <br>
     <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI"
             ga-event-action="who are you submit">Next
     </button>

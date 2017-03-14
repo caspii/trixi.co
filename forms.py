@@ -1,6 +1,6 @@
 from wtforms import Form, StringField, IntegerField, validators, \
     FieldList, ValidationError, RadioField
-
+from wtforms.validators import *
 
 def validate_people(form, field):
     """Validator to ensure that all names are unique"""
@@ -19,4 +19,4 @@ class PeopleForm(Form):
 
 
 class WhoAreYouForm(Form):
-    people = RadioField('Label', choices=[])
+    people = RadioField('Label', coerce=int, choices=[])

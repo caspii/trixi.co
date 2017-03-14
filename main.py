@@ -71,14 +71,21 @@ def who_are_you(project_key):
     if project is None:
         logging.exception("Project could not be retrieved: " + project_key)
         abort(404)
+    # Populate radio buttons
+    categories = [(p.id, p.name) for p in project.people]
+    form.people.choices = categories
     if request.method == 'GET':
-        # Populate radio buttons
-        categories = [(p.id, p.name) for p in project.people]
-        form.people.choices = categories
         return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
     elif request.method == 'POST':
-        print "Posting: " + str(request.form)
-        flash('Welcome to the club, Dude')
+        if form.validate():
+            person_id = request.form['people']
+            person_name = project.people[int(person_id)].name
+            flash('Welcome ' + person_name)
+            response = make_response(redirect('/project/' + project_key))
+            store_user(request, response, project_key, 0)
+            return response
+        else:
+            print form.errors
         return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
 
 
