@@ -2,9 +2,9 @@ import logging
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
 
-from forms import ProjectCreateForm, PeopleForm
+from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm
 from model import Project
-from session_manager import store_user
+from session_manager import store_user, get_user
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -52,14 +52,34 @@ def people():
 
 
 @app.route('/project/<project_key>')
-def project(project_key):
-    try:
-        project = Project.get_project(project_key)
-        print "Retrieved project: " + project.name
-    except Exception as e:
-        logging.exception("Project could not be retrieved")
+def show_project(project_key):
+    project = Project.get_project(project_key)
+    if project is None:
+        logging.exception("Project could not be retrieved: " + project_key)
         abort(404)
+    user_id = get_user(request, project_key)
+    print "User id = " + str(user_id)
+    if user_id is None:
+        return redirect(url_for('who_are_you', project_key=project_key))
     return render_template('project.html')
+
+
+@app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
+def who_are_you(project_key):
+    project = Project.get_project(project_key)
+    form = WhoAreYouForm(request.form)
+    if project is None:
+        logging.exception("Project could not be retrieved: " + project_key)
+        abort(404)
+    if request.method == 'GET':
+        # Populate radio buttons
+        categories = [(p.id, p.name) for p in project.people]
+        form.people.choices = categories
+        return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
+    elif request.method == 'POST':
+        print "Posting: " + str(request.form)
+        flash('Welcome to the club, Dude')
+        return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
 
 
 @app.route('/about')

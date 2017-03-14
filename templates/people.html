@@ -2,7 +2,7 @@
 {% block body %}
   <h2>Who's involved?</h2>
   <p>Enter the names of everyone who is participating.</p>
-  <form action="{{ url_for('people') }}" method=post>
+<form action="{{ url_for('people', project_key=project_key) }}" method=post>
 
     {% for person in form.people %}
     <div class="form-group {% if person.errors %} has-danger {% endif %}">

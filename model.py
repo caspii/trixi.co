@@ -1,11 +1,13 @@
-from google.appengine.ext import ndb
 import base64
 import os
+
+from google.appengine.ext import ndb
 
 
 class Person(ndb.Model):
     name = ndb.StringProperty()
     active = ndb.BooleanProperty(default=True)
+    id = ndb.IntegerProperty()
 
 
 class Project(ndb.Model):
@@ -19,7 +21,7 @@ class Project(ndb.Model):
         """Add a new project to the Datastore. Returns the project_key of the
             new project."""
         id = base64.urlsafe_b64encode(os.urandom(6))
-        people = [ Person(name=p) for p in people_names ]
+        people = [Person(name=p, id=i) for i, p in enumerate(people_names, 0)]  # Generate id field too
         new_project = Project(name=name, id=id, people=people)
         new_project.put()
         return id
