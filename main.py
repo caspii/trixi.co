@@ -1,9 +1,10 @@
 import logging
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
+
 from forms import ProjectCreateForm, PeopleForm
 from model import Project
-
+from session_manager import store_user
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -43,7 +44,9 @@ def people():
             project_name = session['project_name']
             people_names = [p.data for p in form.people]
             project_key = Project.new(project_name, people_names)
-            return redirect('/project/' + project_key )
+            response = make_response(redirect('/project/' + project_key))
+            store_user(request, response, project_key, 0)
+            return response
         else:
             return render_template('people.html', form=form)
 
