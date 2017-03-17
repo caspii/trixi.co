@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div id="action_bar">
 
+    <div id="action_bar" class="d-flex flex-row-reverse">
         <form class="form-inline" action="{{ url_for('show_project', project_key=project_key) }}" id="choose_user" method=post>
             <input  id="user_id" name="user_id" type="hidden">
-            <label for="choosePartyButton">You are</label>
+
+            <label for="choosePartyButton">You are </label>
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="submit" value="yes" id="choosePartyButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-sm btn-secondary dropdown-toggle" type="submit" value="yes" id="choosePartyButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ current_user_name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -17,7 +18,10 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <a class="btn btn-sm btn-success" href="/edit" role="button">Edit project</a>
         </form>
+
     </div>
     <h2>{{ project.name }}</h2>
     <p>Everything happens here</p>
