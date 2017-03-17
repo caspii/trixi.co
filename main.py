@@ -51,17 +51,27 @@ def people():
             return render_template('people.html', form=form)
 
 
-@app.route('/project/<project_key>')
+@app.route('/project/<project_key>',methods=['GET', 'POST'])
 def show_project(project_key):
     project = Project.get_project(project_key)
     if project is None:
         logging.exception("Project could not be retrieved: " + project_key)
         abort(404)
-    user_id = get_user(request, project_key)
-    print "User id = " + str(user_id)
-    if user_id is None:
+    current_user_id = get_user(request, project_key)
+    if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
-    return render_template('project.html')
+    current_user_name = project.people[current_user_id].name
+    if request.method == 'POST':
+        person_id = request.form['user_id']
+        response = make_response(redirect('/project/' + project_key))
+        store_user(request, response, project_key, person_id)
+        return response
+    # Create list of people without current user for user selection
+    other_people = [p for p in project.people if p.id is not current_user_id]
+    return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
+                           project=project, project_key=project_key)
+
+
 
 
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
@@ -82,11 +92,10 @@ def who_are_you(project_key):
             person_name = project.people[int(person_id)].name
             flash('Welcome ' + person_name)
             response = make_response(redirect('/project/' + project_key))
-            store_user(request, response, project_key, 0)
+            store_user(request, response, project_key, person_id)
             return response
         else:
-            print form.errors
-        return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
+            return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
 
 
 @app.route('/about')

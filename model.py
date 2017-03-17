@@ -18,7 +18,7 @@ class Project(ndb.Model):
 
     @classmethod
     def new(cls, name, people_names):
-        """Add a new project to the Datastore. Returns the project_key of the
+        """Add a new project to the Datastore and return the project_key of the
             new project."""
         id = base64.urlsafe_b64encode(os.urandom(6))
         people = [Person(name=p, id=i) for i, p in enumerate(people_names, 0)]  # Generate id field too

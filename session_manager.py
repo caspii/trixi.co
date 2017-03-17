@@ -18,10 +18,11 @@ def store_user(request, response, project_key, user_id):
 
 
 def get_user(request, project_key):
+    """Return the ID of the current user for the given project"""
     projects = {}
     try:
         projects = json.loads(request.cookies.get('projects'))
     except (ValueError, KeyError, TypeError):
         print "JSON format error"
         logging.exception("Cookie json could not be decoded")
-    return projects.get(project_key)
+    return int(projects.get(project_key))

@@ -1,5 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>This is a project!</h2>
-  <p>Everything happens here</p>
+    <div id="action_bar">
+
+        <form class="form-inline" action="{{ url_for('show_project', project_key=project_key) }}" id="choose_user" method=post>
+            <input  id="user_id" name="user_id" type="hidden">
+            <label for="choosePartyButton">You are</label>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="submit" value="yes" id="choosePartyButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_user_name }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for person in other_people %}
+                    <a data-value="{{ person.id }}"
+                       onclick="$('#user_id').val($(this).data('value')); $('#choose_user').submit()"
+                       class="dropdown-item" href="#">{{ person.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+    <h2>{{ project.name }}</h2>
+    <p>Everything happens here</p>
 {% endblock %}
