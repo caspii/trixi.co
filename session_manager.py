@@ -5,11 +5,13 @@ import logging
 
 def store_user(request, response, project_key, user_id):
     projects = {}
-    try:
-        projects = json.loads(request.cookies.get('projects'))
-    except (ValueError, KeyError, TypeError):
-        print "JSON format error"
-        logging.exception("Cookie json could not be decoded")
+    json_str = request.cookies.get('projects')
+    if json_str is not None:
+        try:
+            projects = json.loads(json_str)
+        except (ValueError, KeyError, TypeError):
+            print "JSON format error"
+            logging.exception("Cookie json could not be decoded")
     projects[project_key] = user_id
     cookie_json = json.dumps(projects)
     response.set_cookie('projects', cookie_json, max_age=10 * 365 * 24 * 60 * 60)
