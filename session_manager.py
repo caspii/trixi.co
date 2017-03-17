@@ -25,4 +25,8 @@ def get_user(request, project_key):
     except (ValueError, KeyError, TypeError):
         print "JSON format error"
         logging.exception("Cookie json could not be decoded")
-    return int(projects.get(project_key))
+    user_id = projects.get(project_key)
+    if user_id is not None:
+        return int(user_id)
+    else:
+        return None
