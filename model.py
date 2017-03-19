@@ -31,3 +31,17 @@ class Project(ndb.Model):
         """Fetch a project from the Datastore"""
         project_key = ndb.Key(Project, project_key)
         return project_key.get()
+
+
+class Priority:
+    low, normal, high = range(3)
+
+
+class Task(ndb.Model):
+    date_created = ndb.DateTimeProperty(auto_now_add=True)
+    created_by = ndb.IntegerProperty()
+    date_altered = ndb.DateTimeProperty(auto_now=True)
+    title = ndb.StringProperty(required=True)
+    description = ndb.StringProperty()
+    assigned_to = ndb.IntegerProperty()
+    priority = ndb.IntegerProperty(default=Priority.normal)

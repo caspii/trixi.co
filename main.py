@@ -2,7 +2,8 @@ import logging
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
 
-from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm
+from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm
+from humantime import pretty_date
 from model import Project
 from session_manager import store_user, get_user
 
@@ -51,7 +52,7 @@ def people():
             return render_template('people.html', form=form)
 
 
-@app.route('/project/<project_key>',methods=['GET', 'POST'])
+@app.route('/project/<project_key>', methods=['GET', 'POST'])
 def show_project(project_key):
     project = Project.get_project(project_key)
     if project is None:
@@ -68,10 +69,19 @@ def show_project(project_key):
         return response
     # Create list of people without current user for user selection
     other_people = [p for p in project.people if p.id is not current_user_id]
+    elapsed_time = pretty_date(project.date_created)
     return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
-                           project=project, project_key=project_key)
+                           project=project, elapsed_time=elapsed_time, project_key=project_key)
 
 
+@app.route('/edit_task/<project_key>/', methods=['GET', 'POST'])
+@app.route('/edit_task/<project_key>/<int:task_key>', methods=['GET', 'POST'])
+def edit_task(project_key, task_key=None):
+    form = TaskForm(request.form)
+    if request.method == 'POST' and form.validate():
+        flash("Your task was created")
+        return redirect('/project/' + project_key)
+    return render_template('edit_task.html', form=form, project_key=project_key)
 
 
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
@@ -84,18 +94,15 @@ def who_are_you(project_key):
     # Populate radio buttons
     categories = [(p.id, p.name) for p in project.people]
     form.people.choices = categories
-    if request.method == 'GET':
+    if request.method == 'POST' and form.validate():
+        person_id = request.form['people']
+        person_name = project.people[int(person_id)].name
+        flash('Welcome ' + person_name)
+        response = make_response(redirect('/project/' + project_key))
+        store_user(request, response, project_key, person_id)
+        return response
+    else:
         return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
-    elif request.method == 'POST':
-        if form.validate():
-            person_id = request.form['people']
-            person_name = project.people[int(person_id)].name
-            flash('Welcome ' + person_name)
-            response = make_response(redirect('/project/' + project_key))
-            store_user(request, response, project_key, person_id)
-            return response
-        else:
-            return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
 
 
 @app.route('/about')

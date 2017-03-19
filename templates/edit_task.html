@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<form action="{{ url_for('edit_task', project_key=project_key) }}" method=post>
+
+    <div class="form-group {% if form.title.errors %} has-danger {% endif %}">
+        <label for="title">{{ form.title.label }}</label>
+        {{ form.title(placeholder="For example: Book the catering",class="form-control",id="title") }}
+        {% if form.title.errors %}
+        <span class="form-control-feedback">{{ form.name.errors[0] }}</span>
+        {% endif %}
+    </div>
+
+    <div class="form-group {% if form.description.errors %} has-danger {% endif %}">
+        <label for="description">{{ form.description.label }}</label>
+        {{ form.description(placeholder="For example: We are 25 people, all
+        vegetarians",class="form-control",id="description") }}
+        {% if form.description.errors %}
+        <span class="form-control-feedback">{{ form.description.errors[0] }}</span>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI" ga-event-action="TODO">
+        <i class="fa fa-check" aria-hidden="true"></i> Create
+    </button>
+
+</form>
+
+{% endblock %}
