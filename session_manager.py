@@ -18,7 +18,6 @@ def store_user(request, response, project_key, user_id):
     response.set_cookie('projects', cookie_json, max_age=10 * 365 * 24 * 60 * 60)
 
 
-
 def get_user(request, project_key):
     """Return the ID of the current user for the given project"""
     projects = request.cookies.get('projects')
