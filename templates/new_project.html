@@ -1,35 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Create your project</h2>
-  <form action="{{ url_for('new') }}" method=post>
+<h2>Create your project</h2>
+<form action="{{ url_for('new') }}" method=post>
 
     <div class="form-group {% if form.project_name.errors %} has-danger {% endif %}">
-      <label for="project_name">{{ form.project_name.label }}</label>
-      {{ form.project_name(placeholder="For example: our wedding, moving house, new venture",class="form-control",id="project_name") }}
-      {% if form.project_name.errors %}
+        <label for="project_name">{{ form.project_name.label }}</label>
+        {{ form.project_name(placeholder="For example: our wedding, moving house, new
+        venture",class="form-control",id="project_name") }}
+        {% if form.project_name.errors %}
         <span class="form-control-feedback">{{ form.project_name.errors[0] }}</span>
-      {% endif %}
+        {% endif %}
     </div>
 
     <div class="form-group {% if form.person_count.errors %} has-danger {% endif %}">
-      <label for="person_count">{{ form.person_count.label }}</label>
-      <div class="input-group">
+        <label for="person_count">{{ form.person_count.label }}</label>
+        <div class="input-group">
         <span class="input-group-btn">
           <button class="person-button btn btn-info" type="button">-</button>
         </span>
-        {{ form.person_count(class="form-control",id="person_count") }}
-        <span class="input-group-btn">
+            {{ form.person_count(class="form-control",id="person_count") }}
+            <span class="input-group-btn">
           <button class="person-button btn btn-info" type="button">+</button>
         </span>
-      </div>
-      {% if form.person_count.errors %}
+        </div>
+        {% if form.person_count.errors %}
         <span class="form-control-feedback">{{ form.person_count.errors[0] }}</span>
-      {% endif %}
+        {% endif %}
     </div>
 
     <p class="text-muted">Don't worry, you can change all this information later on.</p>
 
-    <button type="submit" class="btn btn-lg btn-primary"  ga-on="click" ga-event-category="UI" ga-event-action="TODO">Next</button>
+    <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI" ga-event-action="TODO">
+        Next
+    </button>
 
-  </form>
+</form>
 {% endblock %}

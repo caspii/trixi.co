@@ -1,28 +1,30 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Who's involved?</h2>
-  <p>Enter the names of everyone who is participating.</p>
+<h2>Who's involved?</h2>
+<p>Enter the names of everyone who is participating.</p>
 <form action="{{ url_for('people', project_key=project_key) }}" method=post>
 
     {% for person in form.people %}
     <div class="form-group {% if person.errors %} has-danger {% endif %}">
-      {% if loop.index == 1 %}
+        {% if loop.index == 1 %}
         <!-- Own name first -->
         {{ person(class_="form-control", placeholder="Your name") }}
-      {% else %}
+        {% else %}
         <!-- Everyone else -->
         {{ person(class_="form-control", placeholder="Person " ~ loop.index) }}
-      {% endif %}
-      {% if person.errors %}
+        {% endif %}
+        {% if person.errors %}
         <span class="form-control-feedback">{{ person.errors[0] }}</span>
-      {% endif %}
+        {% endif %}
     </div>
     {% endfor %}
 
     <p>You can add or remove people later.</p>
     <br>
     <input type="button" class="btn btn-lg btn-default" value="Back" onClick="history.go(-1);return true;">
-    <button type="submit" class="btn btn-lg btn-primary"  ga-on="click" ga-event-category="UI" ga-event-action="new game 2">Next</button>
+    <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI"
+            ga-event-action="new game 2">Next
+    </button>
 </form>
 
 {% endblock %}
