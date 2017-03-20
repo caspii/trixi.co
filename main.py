@@ -70,18 +70,21 @@ def show_project(project_key):
     # Create list of people without current user for user selection
     other_people = [p for p in project.people if p.id is not current_user_id]
     elapsed_time = pretty_date(project.date_created)
+    # Fetch tasks
+    tasks = project.get_tasks()
     return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
-                           project=project, elapsed_time=elapsed_time, project_key=project_key)
+                           project=project, elapsed_time=elapsed_time, project_key=project_key, tasks=tasks)
 
 
 @app.route('/edit_task/<project_key>/', methods=['GET', 'POST'])
 @app.route('/edit_task/<project_key>/<int:task_key>', methods=['GET', 'POST'])
 def edit_task(project_key, task_key=None):
     form = TaskForm(request.form)
+    project = Project.get_project(project_key)
     if request.method == 'POST' and form.validate():
         title = form['title'].data
         description = form['description'].data
-        Task.new(title, 1, description, 1)
+        Task.new(project.key, title, 1, description, 1)
         flash("Your task was created")
         return redirect('/project/' + project_key)
     return render_template('edit_task.html', form=form, project_key=project_key)

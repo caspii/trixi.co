@@ -32,6 +32,10 @@ class Project(ndb.Model):
         project_key = ndb.Key(Project, project_key)
         return project_key.get()
 
+    def get_tasks(self):
+        task_query = Task.query(ancestor=self.key)
+        return [t for t in task_query]
+
 
 class Priority:
     low, normal, high = range(3)
@@ -47,6 +51,6 @@ class Task(ndb.Model):
     priority = ndb.IntegerProperty(required=True)
 
     @classmethod
-    def new(cls, title, priority, description=None, assigned_to=None):
-        new_task = Task(title=title, priority=priority, description=description, assigned_to=assigned_to)
+    def new(cls, parent, title, priority, description=None, assigned_to=None):
+        new_task = Task(parent=parent, title=title, priority=priority, description=description, assigned_to=assigned_to)
         new_task.put()
