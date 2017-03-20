@@ -7,7 +7,7 @@
         <label for="title">{{ form.title.label }}</label>
         {{ form.title(placeholder="For example: Book the catering",class="form-control",id="title") }}
         {% if form.title.errors %}
-        <span class="form-control-feedback">{{ form.name.errors[0] }}</span>
+        <span class="form-control-feedback">{{ form.title.errors[0] }}</span>
         {% endif %}
     </div>
 

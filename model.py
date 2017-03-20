@@ -44,4 +44,9 @@ class Task(ndb.Model):
     title = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     assigned_to = ndb.IntegerProperty()
-    priority = ndb.IntegerProperty(default=Priority.normal)
+    priority = ndb.IntegerProperty(required=True)
+
+    @classmethod
+    def new(cls, title, priority, description=None, assigned_to=None):
+        new_task = Task(title=title, priority=priority, description=description, assigned_to=assigned_to)
+        new_task.put()

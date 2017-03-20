@@ -27,4 +27,4 @@ class WhoAreYouForm(Form):
 
 class TaskForm(Form):
     title = StringField('Name for the task', [validators.Length(min=1, max=40), validators.DataRequired()])
-    description = TextAreaField('Optional description', [validators.Length(min=1, max=400)])
+    description = TextAreaField('Optional description', [validators.Length(min=0, max=400)])

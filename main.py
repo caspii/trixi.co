@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, abo
 
 from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm
 from humantime import pretty_date
-from model import Project
+from model import Project, Task
 from session_manager import store_user, get_user
 
 app = Flask(__name__)
@@ -79,6 +79,9 @@ def show_project(project_key):
 def edit_task(project_key, task_key=None):
     form = TaskForm(request.form)
     if request.method == 'POST' and form.validate():
+        title = form['title'].data
+        description = form['description'].data
+        Task.new(title, 1, description, 1)
         flash("Your task was created")
         return redirect('/project/' + project_key)
     return render_template('edit_task.html', form=form, project_key=project_key)
