@@ -5,8 +5,8 @@
 
     <div class="form-group {% if form.project_name.errors %} has-danger {% endif %}">
         <label for="project_name">{{ form.project_name.label }}</label>
-        {{ form.project_name(placeholder="For example: our wedding, moving house, new
-        venture",class="form-control",id="project_name") }}
+        {{ form.project_name(placeholder="For example: our wedding, moving house, new venture",
+        class="form-control",id="project_name") }}
         {% if form.project_name.errors %}
         <span class="form-control-feedback">{{ form.project_name.errors[0] }}</span>
         {% endif %}
