@@ -11,6 +11,7 @@ class Person(ndb.Model):
 
 
 class Project(ndb.Model):
+    read_only_key = ndb.StringProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
     date_altered = ndb.DateTimeProperty(auto_now=True)
     name = ndb.StringProperty(required=True)
@@ -21,8 +22,9 @@ class Project(ndb.Model):
         """Add a new project to the Datastore and return the project_key of the
             new project."""
         id = base64.urlsafe_b64encode(os.urandom(6))
+        read_only_key = base64.urlsafe_b64encode(os.urandom(6))
         people = [Person(name=p, id=i) for i, p in enumerate(people_names, 0)]  # Generate id field too
-        new_project = Project(name=name, id=id, people=people)
+        new_project = Project(name=name, id=id, people=people, read_only_key=read_only_key)
         new_project.put()
         return id
 
