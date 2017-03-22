@@ -12,6 +12,14 @@ app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 Markdown(app)
 
+
+# Allow pretty dates via jinja2 filter
+def format_datetime(value):
+    return pretty_date(value)
+
+
+app.jinja_env.filters['datetime'] = format_datetime
+
 @app.route('/')
 def landing():
     return render_template('landing.html')
@@ -70,11 +78,10 @@ def view_project(project_key):
         return response
     # Create list of people without current user for user selection
     other_people = [p for p in project.people if p.id is not current_user_id]
-    elapsed_time = pretty_date(project.date_created)
     # Fetch tasks
     tasks = project.get_tasks()
     return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
-                           project=project, elapsed_time=elapsed_time, tasks=tasks)
+                           project=project, tasks=tasks)
 
 
 @app.route('/create_task/<project_key>/', methods=['GET', 'POST'])
@@ -86,6 +93,7 @@ def create_task(project_key):
         description = form['description'].data
         Task.new(project.key, title, 1, description, 1)
         flash("Your task was created")
+        project.touch()
         return redirect('/project/' + project_key)
     return render_template('edit_task.html', form=form, project=project)
 

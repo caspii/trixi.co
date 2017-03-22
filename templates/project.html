@@ -27,7 +27,8 @@
 <br>
 <div>
     <h2>{{ project.name }}</h2>
-    <p class="text-muted">Created by {{project.people[0].name}} {{ elapsed_time }} </p>
+    <p class="text-muted">Created by {{project.people[0].name}} {{ project.date_created | datetime }}. Last update: {{
+        project.date_altered | datetime }} </p>
 
     <a class="btn btn-lg btn-primary" href="{{ url_for('create_task', project_key=project.key.id()) }}" role="button"
        ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
@@ -43,7 +44,8 @@
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}" class="list-group-item " ga-on="click"
            ga-event-category="UI"
            ga-event-action="click tasks">
-            <strong>{{ task.title }}</strong> Created {{ task.date_created }}
+            <strong>{{ task.title }}</strong> <br>
+            Created {{ task.date_created | datetime }}
         </a>
         {% endfor%}
         {% else %}

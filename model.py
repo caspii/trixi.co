@@ -38,6 +38,11 @@ class Project(ndb.Model):
         task_query = Task.query(ancestor=self.key)
         return [t for t in task_query]
 
+    def touch(self):
+        """Force date_altered to be updated"""
+        ndb_project_key = ndb.Key(Project, self.key.id())
+        ndb_project_key.get().put()
+
 
 class Priority:
     low, normal, high = range(3)

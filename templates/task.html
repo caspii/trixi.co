@@ -2,10 +2,15 @@
 {% block body %}
 
 <div>
-    <h2>{{ task.title }}</h2>
-    <hr>
-    {{task.description|markdown}}
-
+    <div class="card">
+        <div class="card-block">
+            <h1 class="card-title">{{ task.title }}</h1>
+            <h6 class="card-subtitle mb-2 text-muted">Created {{ task.date_created | datetime }} by TODO</h6>
+            <p class="card-text">{{task.description|markdown}}</p>
+            <a href="#" class="card-link">Edit</a>
+            <a href="#" class="card-link">Delete</a>
+        </div>
+    </div>
 
 
 </div>
