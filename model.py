@@ -24,15 +24,15 @@ class Project(ndb.Model):
         id = base64.urlsafe_b64encode(os.urandom(6))
         read_only_key = base64.urlsafe_b64encode(os.urandom(6))
         people = [Person(name=p, id=i) for i, p in enumerate(people_names, 0)]  # Generate id field too
-        new_project = Project(name=name, id=id, people=people, read_only_key=read_only_key)
+        new_project = Project(id=id, read_only_key=read_only_key, name=name, people=people)
         new_project.put()
         return id
 
     @classmethod
     def get_project(cls, project_key):
         """Fetch a project from the Datastore"""
-        project_key = ndb.Key(Project, project_key)
-        return project_key.get()
+        ndb_project_key = ndb.Key(Project, project_key)
+        return ndb_project_key.get()
 
     def get_tasks(self):
         task_query = Task.query(ancestor=self.key)
@@ -44,9 +44,10 @@ class Priority:
 
 
 class Task(ndb.Model):
+    read_only_key = ndb.StringProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
-    created_by = ndb.IntegerProperty()
     date_altered = ndb.DateTimeProperty(auto_now=True)
+    created_by = ndb.IntegerProperty()
     title = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     assigned_to = ndb.IntegerProperty()
@@ -54,5 +55,14 @@ class Task(ndb.Model):
 
     @classmethod
     def new(cls, parent, title, priority, description=None, assigned_to=None):
-        new_task = Task(parent=parent, title=title, priority=priority, description=description, assigned_to=assigned_to)
+        id = base64.urlsafe_b64encode(os.urandom(6))
+        read_only_key = base64.urlsafe_b64encode(os.urandom(6))
+        new_task = Task(id=id, read_only_key=read_only_key, parent=parent, title=title, priority=priority,
+                        description=description, assigned_to=assigned_to)
         new_task.put()
+
+    @classmethod
+    def get_task(cls, project, task_key):
+        """Fetch a task from the Datastore"""
+        ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
+        return ndb_task_key.get()

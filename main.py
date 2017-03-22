@@ -76,9 +76,8 @@ def show_project(project_key):
                            project=project, elapsed_time=elapsed_time, project_key=project_key, tasks=tasks)
 
 
-@app.route('/edit_task/<project_key>/', methods=['GET', 'POST'])
-@app.route('/edit_task/<project_key>/<int:task_key>', methods=['GET', 'POST'])
-def edit_task(project_key, task_key=None):
+@app.route('/create_task/<project_key>/', methods=['GET', 'POST'])
+def create_task(project_key):
     form = TaskForm(request.form)
     project = Project.get_project(project_key)
     if request.method == 'POST' and form.validate():
@@ -88,6 +87,14 @@ def edit_task(project_key, task_key=None):
         flash("Your task was created")
         return redirect('/project/' + project_key)
     return render_template('edit_task.html', form=form, project_key=project_key)
+
+
+@app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
+def task(project_key, task_key):
+    project = Project.get_project(project_key)
+    task = Task.get_task(project, task_key)
+    print task
+    return render_template('task.html', task=task)
 
 
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])

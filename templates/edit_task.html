@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<form action="{{ url_for('edit_task', project_key=project_key) }}" method=post>
+<form action="{{ url_for('create_task', project_key=project_key) }}" method=post>
 
     <div class="form-group {% if form.title.errors %} has-danger {% endif %}">
         <label for="title">{{ form.title.label }}</label>
