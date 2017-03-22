@@ -3,26 +3,34 @@
 
 <form action="{{ url_for('create_task', project_key=project.key.id()) }}" method=post>
 
-    <div class="form-group {% if form.title.errors %} has-danger {% endif %}">
-        <label for="title">{{ form.title.label }}</label>
-        {{ form.title(placeholder="For example: Book the catering",class="form-control",id="title") }}
-        {% if form.title.errors %}
-        <span class="form-control-feedback">{{ form.title.errors[0] }}</span>
-        {% endif %}
-    </div>
+    <div class="card">
+        <div class="card-block">
+            <h1 class="card-title"> Create task </h1>
+            <div class="form-group {% if form.title.errors %} has-danger {% endif %}">
+                {{ form.title(placeholder="Task title",class="form-control",id="title") }}
+                {% if form.title.errors %}
+                <span class="form-control-feedback">{{ form.title.errors[0] }}</span>
+                {% endif %}
+            </div>
 
-    <div class="form-group {% if form.description.errors %} has-danger {% endif %}">
-        <label for="description">{{ form.description.label }}</label>
-        {{ form.description(placeholder="For example: We are 25 people, all
-        vegetarians",class="form-control",id="description") }}
-        {% if form.description.errors %}
-        <span class="form-control-feedback">{{ form.description.errors[0] }}</span>
-        {% endif %}
-    </div>
 
-    <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI" ga-event-action="TODO">
-        <i class="fa fa-check" aria-hidden="true"></i> Create
-    </button>
+            <div class="card-text form-group {% if form.description.errors %} has-danger {% endif %}">
+                {{ form.description(placeholder="Optional description",class="form-control",id="description") }}
+                {% if form.description.errors %}
+                <span class="form-control-feedback">{{ form.description.errors[0] }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-primary">
+                <i class="fa fa-check" aria-hidden="true"></i> Create
+            </button>
+            <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
+               role="button" class="btn btn-lg btn-outline-secondary">
+                Back
+            </a>
+
+        </div>
+    </div>
 
 </form>
 

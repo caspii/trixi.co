@@ -52,18 +52,18 @@ class Task(ndb.Model):
     read_only_key = ndb.StringProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
     date_altered = ndb.DateTimeProperty(auto_now=True)
-    created_by = ndb.IntegerProperty()
+    created_by = ndb.IntegerProperty(required=True)
     title = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     assigned_to = ndb.IntegerProperty()
     priority = ndb.IntegerProperty(required=True)
 
     @classmethod
-    def new(cls, parent, title, priority, description=None, assigned_to=None):
+    def new(cls, parent, title, priority, created_by, description=None, assigned_to=None):
         id = base64.urlsafe_b64encode(os.urandom(6))
         read_only_key = base64.urlsafe_b64encode(os.urandom(6))
         new_task = Task(id=id, read_only_key=read_only_key, parent=parent, title=title, priority=priority,
-                        description=description, assigned_to=assigned_to)
+                        created_by=created_by, description=description, assigned_to=assigned_to)
         new_task.put()
 
     @classmethod

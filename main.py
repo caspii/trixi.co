@@ -88,10 +88,13 @@ def view_project(project_key):
 def create_task(project_key):
     form = TaskForm(request.form)
     project = Project.get_project(project_key)
+    current_user_id = get_user(request, project_key)
+    if current_user_id is None:
+        return redirect(url_for('who_are_you', project_key=project_key))
     if request.method == 'POST' and form.validate():
         title = form['title'].data
         description = form['description'].data
-        Task.new(project.key, title, 1, description, 1)
+        Task.new(project.key, title, 1, current_user_id, description, 1)
         flash("Your task was created")
         project.touch()
         return redirect('/project/' + project_key)
@@ -103,7 +106,7 @@ def view_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
     print task
-    return render_template('task.html', task=task)
+    return render_template('task.html', task=task, project=project)
 
 
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
