@@ -53,7 +53,7 @@ def people():
 
 
 @app.route('/project/<project_key>', methods=['GET', 'POST'])
-def show_project(project_key):
+def view_project(project_key):
     project = Project.get_project(project_key)
     if project is None:
         logging.exception("Project could not be retrieved: " + project_key)
@@ -73,7 +73,7 @@ def show_project(project_key):
     # Fetch tasks
     tasks = project.get_tasks()
     return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
-                           project=project, elapsed_time=elapsed_time, project_key=project_key, tasks=tasks)
+                           project=project, elapsed_time=elapsed_time, tasks=tasks)
 
 
 @app.route('/create_task/<project_key>/', methods=['GET', 'POST'])
@@ -86,11 +86,11 @@ def create_task(project_key):
         Task.new(project.key, title, 1, description, 1)
         flash("Your task was created")
         return redirect('/project/' + project_key)
-    return render_template('edit_task.html', form=form, project_key=project_key)
+    return render_template('edit_task.html', form=form, project=project)
 
 
 @app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
-def task(project_key, task_key):
+def view_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
     print task
@@ -110,12 +110,12 @@ def who_are_you(project_key):
     if request.method == 'POST' and form.validate():
         person_id = request.form['people']
         person_name = project.people[int(person_id)].name
-        flash('Welcome ' + person_name)
+        flash('Welcome ' + person_name + '! We recommend you bookmark this page')
         response = make_response(redirect('/project/' + project_key))
         store_user(request, response, project_key, person_id)
         return response
     else:
-        return render_template('who_are_you.html', project=project, form=form, project_key=project_key)
+        return render_template('who_are_you.html', project=project, form=form)
 
 
 @app.route('/about')

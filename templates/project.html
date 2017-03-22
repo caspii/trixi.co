@@ -2,7 +2,8 @@
 {% block body %}
 
     <div id="action_bar" class="d-flex flex-row-reverse">
-        <form class="form-inline" action="{{ url_for('show_project', project_key=project_key) }}" id="choose_user" method=post>
+        <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user"
+              method=post>
             <input  id="user_id" name="user_id" type="hidden">
 
             <label for="choosePartyButton">You are </label>
@@ -28,7 +29,7 @@
     <h2>{{ project.name }}</h2>
     <p class="text-muted">Created by {{project.people[0].name}} {{ elapsed_time }} </p>
 
-    <a class="btn btn-lg btn-primary" href="{{ url_for('create_task', project_key=project_key) }}" role="button"
+    <a class="btn btn-lg btn-primary" href="{{ url_for('create_task', project_key=project.key.id()) }}" role="button"
        ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
 
@@ -39,7 +40,8 @@
     <div class="list-group">
         {% if tasks %}
         {% for task in tasks %}
-        <a href="/task/{{project_key}}/{{task.key.id()}}" class="list-group-item " ga-on="click" ga-event-category="UI"
+        <a href="/task/{{project.key.id()}}/{{task.key.id()}}" class="list-group-item " ga-on="click"
+           ga-event-category="UI"
            ga-event-action="click tasks">
             <strong>{{ task.title }}</strong> Created {{ task.date_created }}
         </a>
