@@ -1,6 +1,7 @@
 import logging
 
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
+from flaskext.markdown import Markdown
 
 from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm
 from humantime import pretty_date
@@ -9,7 +10,7 @@ from session_manager import store_user, get_user
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-
+Markdown(app)
 
 @app.route('/')
 def landing():
