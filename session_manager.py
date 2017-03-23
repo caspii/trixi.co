@@ -20,7 +20,8 @@ def get_previous_projects(request):
     project_keys = [k for k in project_list.keys()]
     for key in project_keys:
         project = Project.get_project(key)
-        projects.append(project)
+        if project is not None:
+            projects.append(project)
     return projects
 
 def store_user(request, response, project_key, user_id):
