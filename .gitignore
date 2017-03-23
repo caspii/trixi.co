@@ -2,3 +2,5 @@ venv
 *pyc
 bower_components
 .idea
+**log
+.cache
