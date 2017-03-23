@@ -1,6 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
 
+
+{% if previous_projects %}
+<h3>Your projects</h3>
+<div class="list-group">
+    {% for project in previous_projects %}
+    <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
+       class="list-group-item list-group-item-action flex-column align-items-start" ga-on="click"
+       ga-event-category="UI" ga-event-action="click on previous project">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ project.name }}</h5>
+            <small>Last update {{ project.date_altered | datetime }}</small>
+        </div>
+    </a>
+    {% endfor%}
+</div>
+{% endif %}
+
 <div class="jumbotron">
     <h1 class="display-2">Trixi</h1>
     <p class="lead">The world's simplest project management tool.<br>
@@ -8,17 +25,6 @@
     </p>
     <p><a class="btn btn-lg btn-success" href="/new" role="button">Start now</a>
 </div>
-
-<!-- <div class="list-group">
-  {% if previous_games %}
-    <h3>Your previous stories</h3>
-    {% for game in previous_games %}
-      <a href="/game/{{game.url}}" class="list-group-item "  ga-on="click" ga-event-category="UI" ga-event-action="click on previous game">
-        {{ game.status }}
-      </a>
-    {% endfor%}
-  {% endif %}
-</div> -->
 
 <div class="row marketing">
     <div class="col-lg-6">

@@ -6,7 +6,7 @@ from flaskext.markdown import Markdown
 from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm
 from humantime import pretty_date
 from model import Project, Task
-from session_manager import store_user, get_user
+from session_manager import store_user, get_user, get_previous_projects
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -22,7 +22,8 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def landing():
-    return render_template('landing.html')
+    previous_projects = get_previous_projects(request)
+    return render_template('landing.html', previous_projects=previous_projects)
 
 
 @app.route('/new', methods=['GET', 'POST'])
