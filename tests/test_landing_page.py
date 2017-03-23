@@ -4,8 +4,8 @@ import tests_lib
 
 
 def test_previous_projects_list():
-    browser = Browser('phantomjs')
     """Test whether previous project cookie is written and gets used correctly"""
+    browser = Browser('phantomjs')
     tests_lib.create_project(browser, 'Wicked new test')
     tests_lib.create_project(browser, 'WooHooDoo')
     browser.visit('http://localhost:8080')
