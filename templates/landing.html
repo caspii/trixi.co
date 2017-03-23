@@ -11,7 +11,7 @@
        ga-event-category="UI" ga-event-action="click on previous project">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ project.name }}</h5>
-            <small>Last update {{ project.date_altered | datetime }}</small>
+            <small>Updated {{ project.date_altered | datetime }}</small>
         </div>
     </a>
     {% endfor%}
