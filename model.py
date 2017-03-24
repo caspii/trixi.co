@@ -35,7 +35,7 @@ class Project(ndb.Model):
         return ndb_project_key.get()
 
     def get_tasks(self):
-        task_query = Task.query(ancestor=self.key)
+        task_query = Task.query(ancestor=self.key).order(-Task.priority)
         return [t for t in task_query]
 
     def touch(self):
