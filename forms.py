@@ -17,7 +17,7 @@ class ProjectCreateForm(Form):
 
 
 class PeopleForm(Form):
-    people = FieldList(StringField('Name', [validators.InputRequired(), validators.Length(min=1, max=25),
+    people = FieldList(StringField('Name', [validators.InputRequired(), validators.Length(min=1, max=100),
                                             validate_people]))
 
 
