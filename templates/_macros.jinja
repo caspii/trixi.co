@@ -1,0 +1,7 @@
+{% macro render_priority(priority) %}
+    {% if priority == 2 %}
+        <span class="badge badge-warning">Urgent</span>
+    {% elif priority == 0 %}
+        <span class="badge badge-default">Low priority</span>
+    {% endif %}
+{% endmacro %}
