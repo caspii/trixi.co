@@ -4,19 +4,21 @@
 
 <div>
     <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
-       role="button" class="btn btn-sm btn-secondary">
+       role="button" class="btn btn-sm btn-info">
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
         Back to project
     </a>
     <br>
     <br>
     <div class="card">
-        <div class="card-block">
-            <h1 class="card-title">{{ task.title }}</h1>
+        <div class="card-block ">
+            <div class="card-title d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <h5>{{ macros.render_priority(task.priority) }}</h5>
+            </div>
             <h6 class="card-subtitle mb-2 text-muted">
-                {{ macros.render_priority(task.priority) }}
-                Created {{ task.date_created | datetime }}
-                by {{ project.people[task.created_by].name }}</h6>
+                Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}
+            </h6>
             <p class="card-text">{{task.description|markdown}}</p>
             <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
