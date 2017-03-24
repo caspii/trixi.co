@@ -24,6 +24,7 @@ def get_previous_projects(request):
             projects.append(project)
     return projects
 
+
 def store_user(request, response, project_key, user_id):
     """Store user for given project in a cookie"""
     projects = {}
