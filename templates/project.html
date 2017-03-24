@@ -46,13 +46,10 @@
            class="list-group-item list-group-item-action flex-column align-items-start"
            ga-on="click" ga-event-category="UI" ga-event-action="click tasks">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                    {{ task.title }}
-                    {{ macros.render_priority(task.priority) }}
-                </h5>
-                <small>Updated {{ task.date_altered | datetime }}</small>
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <h5>{{ macros.render_priority(task.priority) }}</h5>
             </div>
-
+            <p class="mb-1"><small>Updated {{ task.date_altered | datetime }}</small></p>
             <!--<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>-->
             <!--<small>Donec id elit non mi porta.</small>-->
 
