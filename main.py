@@ -119,6 +119,14 @@ def edit_task(project_key, task_key):
     return render_template('edit_task.html', task=task, project=project, form=form)
 
 
+@app.route('/complete_task/<project_key>/<task_key>', methods=['POST'])
+def complete_task(project_key, task_key):
+    project = Project.get_project(project_key)
+    task = Task.get_task(project, task_key)
+    flash('Completed: ' + task.title)
+    return redirect(url_for('view_project', project_key=project_key))
+
+
 @app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
 def view_task(project_key, task_key):
     project = Project.get_project(project_key)

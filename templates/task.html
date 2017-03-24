@@ -23,6 +23,14 @@
             <a href="#" class="card-link">Delete</a>
         </div>
     </div>
+    <br>
+
+    <form action="{{ url_for('complete_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+    <p><button type="submit" class="btn btn-success">
+            <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
+        </button></p>
+    </form>
+
 
 
 </div>
