@@ -54,9 +54,10 @@ class Task(ndb.Model):
     date_altered = ndb.DateTimeProperty(auto_now=True)
     created_by = ndb.IntegerProperty(required=True)
     title = ndb.StringProperty(required=True)
-    description = ndb.StringProperty()
-    assigned_to = ndb.IntegerProperty()
+    status = ndb.IntegerProperty(required=True)
     priority = ndb.IntegerProperty(required=True)
+    description = ndb.TextProperty()
+    assigned_to = ndb.IntegerProperty()
 
     @classmethod
     def new(cls, parent, title, priority, created_by, description=None, assigned_to=None):
