@@ -42,13 +42,13 @@
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn btn-lg btn-primary">
-                <i class="fa fa-check" aria-hidden="true"></i> Save
-            </button>
             <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
-               role="button" class="btn btn-lg btn-outline-secondary">
+               role="button" class="btn btn-secondary">
                 Back
             </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-check" aria-hidden="true"></i> Save
+            </button>
 
         </div>
     </div>
