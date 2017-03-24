@@ -21,11 +21,11 @@
 {% block body %}
 
 
-<form action="{{ url_for('create_task', project_key=project.key.id()) }}" method=post>
+<form action="{{ request.path }}" method=post>
 
     <div class="card">
         <div class="card-block">
-            <h1 class="card-title"> Create task </h1>
+            <!-- <h1 class="card-title"> Create task </h1> -->
             <div class="form-group {% if form.title.errors %} has-danger {% endif %}">
                 {{ form.title(placeholder="Task title",class="form-control",id="title") }}
                 {% if form.title.errors %}
@@ -43,7 +43,7 @@
             </div>
 
             <button type="submit" class="btn btn-lg btn-primary">
-                <i class="fa fa-check" aria-hidden="true"></i> Create
+                <i class="fa fa-check" aria-hidden="true"></i> Save
             </button>
             <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
                role="button" class="btn btn-lg btn-outline-secondary">

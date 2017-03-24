@@ -104,11 +104,25 @@ def create_task(project_key):
     return render_template('edit_task.html', form=form, project=project)
 
 
+@app.route('/edit_task/<project_key>/<task_key>', methods=['GET', 'POST'])
+def edit_task(project_key, task_key):
+    form = TaskForm(request.form)
+    project = Project.get_project(project_key)
+    task = Task.get_task(project, task_key)
+    if request.method == 'POST' and form.validate():
+        flash("Task was updated")
+        task.update(form.title.data, int(form.priority.data), form.description.data)
+        return redirect(url_for('view_task', project_key=project_key, task_key=task_key))
+    form.title.data = task.title
+    form.priority.data = str(task.priority)
+    form.description.data = task.description
+    return render_template('edit_task.html', task=task, project=project, form=form)
+
+
 @app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
 def view_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
-    print task
     return render_template('task.html', task=task, project=project)
 
 

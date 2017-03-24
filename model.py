@@ -72,3 +72,9 @@ class Task(ndb.Model):
         """Fetch a task from the Datastore"""
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         return ndb_task_key.get()
+
+    def update(self, title, priority, description):
+        self.title = title
+        self.priority = priority
+        self.description = description
+        self.put()

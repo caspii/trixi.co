@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% import "_macros.jinja" as macros %}
 {% block body %}
 
 <div>
@@ -12,10 +13,13 @@
     <div class="card">
         <div class="card-block">
             <h1 class="card-title">{{ task.title }}</h1>
-            <h6 class="card-subtitle mb-2 text-muted">Created {{ task.date_created | datetime }}
+            <h6 class="card-subtitle mb-2 text-muted">
+                {{ macros.render_priority(task.priority) }}
+                Created {{ task.date_created | datetime }}
                 by {{ project.people[task.created_by].name }}</h6>
             <p class="card-text">{{task.description|markdown}}</p>
-            <a href="#" class="card-link">Edit</a>
+            <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
+                class="card-link">Edit</a>
             <a href="#" class="card-link">Delete</a>
         </div>
     </div>
