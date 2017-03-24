@@ -20,6 +20,7 @@ def format_datetime(value):
 
 app.jinja_env.filters['datetime'] = format_datetime
 
+
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
@@ -93,9 +94,10 @@ def create_task(project_key):
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
     if request.method == 'POST' and form.validate():
-        title = form['title'].data
-        description = form['description'].data
-        Task.new(project.key, title, 1, current_user_id, description, 1)
+        title = form.title.data
+        description = form.description.data
+        priority = int(form.priority.data)
+        Task.new(project.key, title, priority, current_user_id, description, 1)
         flash("Your task was created")
         project.touch()
         return redirect('/project/' + project_key)

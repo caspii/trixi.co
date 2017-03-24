@@ -1,5 +1,25 @@
 {% extends "layout.html" %}
+{% macro render_radio_field(field) -%}
+<label for="priority">Priority </label>
+<div class="btn-group" data-toggle="buttons">
+    {% for value, label, _ in field.iter_choices() %}
+        {% if value == field.data %}
+        <label class="btn btn-secondary active">
+            <input type="radio" autocomplete="off" name="{{ field.id }}"
+            id="{{ field.id }}" value="{{ value }}" checked>{{ label }}
+        </label>
+        {% else %}
+        <label class="btn btn-secondary">
+            <input type="radio" autocomplete="off" name="{{ field.id }}"
+            id="{{ field.id }}" value="{{ value }}">{{ label }}
+        </label>
+        {% endif %}
+    {% endfor %}
+</div>
+{%- endmacro %}
+
 {% block body %}
+
 
 <form action="{{ url_for('create_task', project_key=project.key.id()) }}" method=post>
 
@@ -13,6 +33,7 @@
                 {% endif %}
             </div>
 
+            {{render_radio_field(form.priority)}}
 
             <div class="card-text form-group {% if form.description.errors %} has-danger {% endif %}">
                 {{ form.description(placeholder="Optional description",class="form-control",id="description") }}
