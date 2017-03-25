@@ -21,11 +21,6 @@ h1, h2, h3, h4 {
   padding-left: 1rem;
 }
 
-/* Custom page header */
-.header {
-  padding-bottom: 1rem;
-  /*border-bottom: .05rem solid #e5e5e5;*/
-}
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
