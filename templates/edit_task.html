@@ -4,12 +4,12 @@
 <div class="btn-group" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
         {% if value == field.data %}
-        <label class="btn btn-secondary active">
+    <label class="btn btn-outline-info active">
             <input type="radio" autocomplete="off" name="{{ field.id }}"
             id="{{ field.id }}" value="{{ value }}" checked>{{ label }}
         </label>
         {% else %}
-        <label class="btn btn-secondary">
+    <label class="btn btn-outline-info">
             <input type="radio" autocomplete="off" name="{{ field.id }}"
             id="{{ field.id }}" value="{{ value }}">{{ label }}
         </label>
@@ -43,7 +43,7 @@
             </div>
 
             <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
-               role="button" class="btn btn-secondary">
+               role="button" class="btn btn-outline-primary">
                 Back
             </a>
             <button type="submit" class="btn btn-primary">
