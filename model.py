@@ -54,7 +54,7 @@ class Task(ndb.Model):
     date_altered = ndb.DateTimeProperty(auto_now=True)
     created_by = ndb.IntegerProperty(required=True)
     title = ndb.StringProperty(required=True)
-    status = ndb.IntegerProperty(required=True, default=0)
+    status = ndb.IntegerProperty(required=True, default=0)  # 0=Open, 1=Completed
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
     assigned_to = ndb.IntegerProperty()
@@ -77,4 +77,8 @@ class Task(ndb.Model):
         self.title = title
         self.priority = priority
         self.description = description
+        self.put()
+
+    def set_status(self, status):
+        self.status = status
         self.put()

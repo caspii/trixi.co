@@ -42,7 +42,7 @@
     <h3>Your tasks</h3>
     <div class="list-group">
         {% if tasks %}
-        {% for task in tasks %}
+        {% for task in tasks|selectattr("status", "equalto", 0) %}
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
            class="list-group-item list-group-item-action flex-column align-items-start"
            ga-on="click" ga-event-category="UI" ga-event-action="click tasks">
@@ -50,10 +50,25 @@
                 <h5 class="mb-1">{{ task.title }}</h5>
                 <h5>{{ macros.render_priority(task.priority) }}</h5>
             </div>
-            <p class="mb-1"><small>Updated {{ task.date_altered | datetime }}</small></p>
-            <!--<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>-->
-            <!--<small>Donec id elit non mi porta.</small>-->
-
+            <p class="mb-1">
+                <small>Updated {{ task.date_altered | datetime }}</small>
+            </p>
+        </a>
+        {% endfor%}
+        <br>
+        <br>
+        <h3>Completed tasks</h3>
+        {% for task in tasks|selectattr("status", "equalto", 1) %}
+        <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
+           class="list-group-item list-group-item-action flex-column align-items-start"
+           ga-on="click" ga-event-category="UI" ga-event-action="click tasks">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <h5><span class="badge badge-success">Completed</span></h5>
+            </div>
+            <p class="mb-1">
+                <small>Updated {{ task.date_altered | datetime }}</small>
+            </p>
         </a>
         {% endfor%}
         {% else %}

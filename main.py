@@ -123,6 +123,7 @@ def edit_task(project_key, task_key):
 def complete_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
+    task.set_status(1)
     flash('Completed: ' + task.title)
     return redirect(url_for('view_project', project_key=project_key))
 
