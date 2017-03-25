@@ -9,7 +9,8 @@
 
             <label for="choosePartyButton">You are </label>
             <div class="dropdown">
-                <button class="btn btn-sm btn-info dropdown-toggle" type="submit" value="yes" id="choosePartyButton"
+                <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
+                        id="choosePartyButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ current_user_name }}
                 </button>
@@ -22,19 +23,24 @@
                 </div>
             </div>
 
-            <a class="btn btn-sm btn-success" href="/edit" role="button">Edit project</a>
+            <a class="btn btn-sm btn-outline-info" href="/edit" role="button">Edit project</a>
         </form>
 
     </div>
 <br>
 <div>
-    <h2>{{ project.name }}</h2>
-    <p class="text-muted">Created by {{project.people[0].name}} {{ project.date_created | datetime }}. Last update: {{
-        project.date_altered | datetime }} </p>
 
-    <a class="btn btn-lg btn-primary" href="{{ url_for('create_task', project_key=project.key.id()) }}" role="button"
-       ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
-        <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
+    <div class="text-center">
+        <h2>{{ project.name }}</h2>
+        <p class="text-muted">Created by {{project.people[0].name}}. Last update: {{
+            project.date_altered | datetime }} </p>
+
+        <a class="btn btn-lg btn-success" href="{{ url_for('create_task', project_key=project.key.id()) }}"
+           role="button"
+           ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
+    </div>
+
 
     <br>
     <br>
