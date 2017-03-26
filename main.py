@@ -148,7 +148,7 @@ def who_are_you(project_key):
     if request.method == 'POST' and form.validate():
         person_id = request.form['people']
         person_name = project.people[int(person_id)].name
-        flash('Welcome ' + person_name + '! We recommend you bookmark this page')
+        flash('Welcome ' + person_name + '! Please bookmark this page')
         response = make_response(redirect('/project/' + project_key))
         store_user(request, response, project_key, person_id)
         return response

@@ -2,7 +2,7 @@
 {% macro render_radio_field(field) -%}
 <div data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
-    <label class="btn btn-secondary">
+    <label class="btn btn-outline-info">
         <input type="radio" autocomplete="off" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}
     </label>
     {% endfor %}
