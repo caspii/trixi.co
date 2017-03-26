@@ -57,7 +57,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
-                <h5>{{ macros.render_priority(task.priority) }}</h5>
+                <h5>{{ macros.render_task_badge(task) }}</h5>
             </div>
             <p class="mb-1">
                 <small>Updated {{ task.date_altered | datetime }}</small>
@@ -84,7 +84,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
-                <h5><span class="badge badge-success">Completed</span></h5>
+                <h5>{{ macros.render_task_badge(task) }}</h5>
             </div>
             <p class="mb-1">
                 <small>Updated {{ task.date_altered | datetime }}</small>

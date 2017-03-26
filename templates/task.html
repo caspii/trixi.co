@@ -14,7 +14,7 @@
         <div class="card-block ">
             <div class="card-title d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
-                <h5>{{ macros.render_priority(task.priority) }}</h5>
+                <h5>{{ macros.render_task_badge(task) }}</h5>
             </div>
             <h6 class="card-subtitle mb-2 text-muted">
                 Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}
@@ -28,9 +28,9 @@
     <br>
 
     <form action="{{ url_for('complete_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
-    <p><button type="submit" class="btn btn-success">
+        <button type="submit" class="btn btn-success">
             <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
-        </button></p>
+        </button>
     </form>
 
 
