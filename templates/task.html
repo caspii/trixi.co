@@ -27,9 +27,14 @@
     </div>
     <br>
 
-    <form action="{{ url_for('complete_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+    <form action="{{ url_for('toggle_task_status', project_key=project.key.id(), task_key=task.key.id()) }}"
+          method=post>
         <button type="submit" class="btn btn-success">
+            {% if task.status == 0 %}
             <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
+            {% else %}
+            Mark as not completed
+            {% endif %}
         </button>
     </form>
 

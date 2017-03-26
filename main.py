@@ -119,12 +119,17 @@ def edit_task(project_key, task_key):
     return render_template('edit_task.html', task=task, project=project, form=form)
 
 
-@app.route('/complete_task/<project_key>/<task_key>', methods=['POST'])
-def complete_task(project_key, task_key):
+@app.route('/toggle_task_status/<project_key>/<task_key>', methods=['POST'])
+def toggle_task_status(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
-    task.set_status(1)
-    flash('Completed: ' + task.title)
+    if task.status == 0:
+        flash('Completed: ' + task.title)
+        task.set_status(1)
+    else:
+        flash('Task not complete: ' + task.title)
+        task.set_status(0)
+
     return redirect(url_for('view_project', project_key=project_key))
 
 
