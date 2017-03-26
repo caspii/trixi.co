@@ -40,14 +40,11 @@
            ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
             <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
     </div>
-
-
     <br>
     <br>
     <br>
     <h3>Your tasks</h3>
     <div class="list-group">
-        {% if tasks %}
         {% for task in tasks|selectattr("status", "equalto", 0) %}
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
            class="list-group-item list-group-item-action flex-column align-items-start"
@@ -60,10 +57,14 @@
                 <small>Updated {{ task.date_altered | datetime }}</small>
             </p>
         </a>
-        {% endfor%}
-        <br>
-        <br>
-        <h3>Completed tasks</h3>
+        {% else %}
+        <p class="text-muted">Tasks that you own are listed here.</p>
+        {% endfor %}
+    </div>
+    <br>
+    <br>
+    <h3>Completed tasks</h3>
+    <div class="list-group">
         {% for task in tasks|selectattr("status", "equalto", 1) %}
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
            class="list-group-item list-group-item-action flex-column align-items-start"
@@ -76,11 +77,12 @@
                 <small>Updated {{ task.date_altered | datetime }}</small>
             </p>
         </a>
-        {% endfor%}
         {% else %}
-        <p class="text-muted">No tasks have been created yet.</p>
-        {% endif %}
+        <p class="text-muted">Completed tasks are listed here. So far, none have been completed</p>
+        {% endfor %}
     </div>
+
+</div>
 
 </div>
 {% endblock %}
