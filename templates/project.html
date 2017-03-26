@@ -2,53 +2,59 @@
 {% import "_macros.jinja" as macros %}
 {% block body %}
 
-    <div id="action_bar" class="d-flex flex-row-reverse">
-        <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user"
-              method=post>
-            <input  id="user_id" name="user_id" type="hidden">
+<div id="action_bar" class="d-flex flex-row-reverse">
+    <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user"
+          method=post>
+        <input id="user_id" name="user_id" type="hidden">
 
-            <label for="choosePartyButton">You are </label>
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
-                        id="choosePartyButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ current_user_name }}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for person in other_people %}
-                    <a data-value="{{ person.id }}"
-                       onclick="$('#user_id').val($(this).data('value')); $('#choose_user').submit()"
-                       class="dropdown-item" href="#">{{ person.name }}</a>
-                    {% endfor %}
-                </div>
+        <label for="choosePartyButton">You are </label>
+        <div class="dropdown">
+            <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
+                    id="choosePartyButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ current_user_name }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for person in other_people %}
+                <a data-value="{{ person.id }}"
+                   onclick="$('#user_id').val($(this).data('value')); $('#choose_user').submit()"
+                   class="dropdown-item" href="#">{{ person.name }}</a>
+                {% endfor %}
             </div>
+        </div>
 
-            <a class="btn btn-sm btn-outline-info" href="/edit" role="button">Edit project</a>
-        </form>
+        <a class="btn btn-sm btn-outline-info" href="/edit" role="button">Edit project</a>
+    </form>
 
-    </div>
+</div>
 <br>
-<div>
 
-    <div class="text-center">
-        <h2>{{ project.name }}</h2>
-        <p class="text-muted">Created by {{project.people[0].name}}. Last update: {{
-            project.date_altered | datetime }} </p>
 
-        <a class="btn btn-lg btn-success" href="{{ url_for('create_task', project_key=project.key.id()) }}"
-           role="button"
-           ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
+<div class="text-center">
+    <h2>{{ project.name }}</h2>
+    <p class="text-muted">Created by {{project.people[0].name}}. Last update: {{
+        project.date_altered | datetime }} </p>
+
+    <a class="btn btn-lg btn-success" href="{{ url_for('create_task', project_key=project.key.id()) }}"
+       role="button"
+       ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
+</div>
+
+<br>
+{% if not tasks %}
+<div class="text-center">
+    <h4 class="text-muted">No task has been created yet. Go ahead and create one.</h4>
+</div>
+{% else %}
+<div class="card">
+    <div class="card-header">
+        Tasks you own
     </div>
-    <br>
-    <br>
-    <br>
-    <h3>Your tasks</h3>
-    <div class="list-group">
+    <div class="list-group list-group-flush">
         {% for task in tasks|selectattr("status", "equalto", 0) %}
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
-           class="list-group-item list-group-item-action flex-column align-items-start"
-           ga-on="click" ga-event-category="UI" ga-event-action="click tasks">
+           class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
                 <h5>{{ macros.render_priority(task.priority) }}</h5>
@@ -58,17 +64,24 @@
             </p>
         </a>
         {% else %}
-        <p class="text-muted">Tasks that you own are listed here.</p>
+        <div class="card-block">
+            <div class="card-text">
+                <p class="text-muted">You don't own any tasks.</p>
+            </div>
+        </div>
         {% endfor %}
     </div>
+    </div>
     <br>
-    <br>
-    <h3>Completed tasks</h3>
-    <div class="list-group">
+
+<div class="card">
+    <div class="card-header">
+        Completed tasks
+    </div>
+    <div class="list-group list-group-flush">
         {% for task in tasks|selectattr("status", "equalto", 1) %}
         <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
-           class="list-group-item list-group-item-action flex-column align-items-start"
-           ga-on="click" ga-event-category="UI" ga-event-action="click tasks">
+           class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ task.title }}</h5>
                 <h5><span class="badge badge-success">Completed</span></h5>
@@ -78,11 +91,15 @@
             </p>
         </a>
         {% else %}
-        <p class="text-muted">Completed tasks are listed here. So far, none have been completed</p>
+        <div class="card-block">
+            <div class="card-text">
+                <p class="text-muted">There are no completed tasks</p>
+            </div>
+        </div>
         {% endfor %}
     </div>
-
 </div>
+{% endif %}
 
-</div>
+
 {% endblock %}
