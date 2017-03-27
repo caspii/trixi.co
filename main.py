@@ -93,15 +93,24 @@ def create_task(project_key):
     current_user_id = get_user(request, project_key)
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
+    choices = [(p.id, p.name) for p in project.people]
+    form.assigned_to.choices = choices
     if request.method == 'POST' and form.validate():
         title = form.title.data
         description = form.description.data
-        priority = int(form.priority.data)
-        Task.new(project.key, title, priority, current_user_id, description, 1)
+        priority = form.priority.data
+        assigned_to = form.assigned_to.data
+        Task.new(project.key, title, priority, current_user_id, assigned_to, description)
         flash("Your task was created")
         project.touch()
         return redirect('/project/' + project_key)
-    return render_template('edit_task.html', form=form, project=project)
+    else:
+        assigned_to = current_user_id
+        form.assigned_to.default = current_user_id
+        form.process()
+    print request.form
+    return render_template('edit_task.html', form=form, project=project,
+                           assigned_to=assigned_to)
 
 
 @app.route('/edit_task/<project_key>/<task_key>', methods=['GET', 'POST'])
@@ -109,13 +118,16 @@ def edit_task(project_key, task_key):
     form = TaskForm(request.form)
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
+    choices = [(p.id, p.name) for p in project.people]
+    form.assigned_to.choices = choices
     if request.method == 'POST' and form.validate():
         flash("Task was updated")
-        task.update(form.title.data, int(form.priority.data), form.description.data)
+        task.update(form.title.data, int(form.priority.data), form.description.data, form.assigned_to.data)
         return redirect(url_for('view_task', project_key=project_key, task_key=task_key))
     form.title.data = task.title
     form.priority.data = str(task.priority)
     form.description.data = task.description
+    form.assigned_to.data = task.assigned_to
     return render_template('edit_task.html', task=task, project=project, form=form)
 
 

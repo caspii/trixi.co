@@ -60,11 +60,11 @@ class Task(ndb.Model):
     assigned_to = ndb.IntegerProperty()
 
     @classmethod
-    def new(cls, parent, title, priority, created_by, description=None, assigned_to=None):
+    def new(cls, parent, title, priority, created_by, assigned_to, description=None):
         id = base64.urlsafe_b64encode(os.urandom(6))
         read_only_key = base64.urlsafe_b64encode(os.urandom(6))
-        new_task = Task(id=id, read_only_key=read_only_key, parent=parent, title=title, priority=priority,
-                        created_by=created_by, description=description, assigned_to=assigned_to)
+        new_task = Task(id=id, read_only_key=read_only_key, parent=parent, title=title, priority=int(priority),
+                        created_by=created_by, description=description, assigned_to=int(assigned_to))
         new_task.put()
 
     @classmethod
@@ -73,10 +73,11 @@ class Task(ndb.Model):
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         return ndb_task_key.get()
 
-    def update(self, title, priority, description):
+    def update(self, title, priority, description, assigned_to):
         self.title = title
         self.priority = priority
         self.description = description
+        self.assigned_to = assigned_to
         self.put()
 
     def set_status(self, status):

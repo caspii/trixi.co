@@ -17,9 +17,13 @@
                 <h5>{{ macros.render_task_badge(task) }}</h5>
             </div>
             <h6 class="card-subtitle mb-2 text-muted">
-                Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}
+                Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>,
             </h6>
             <p class="card-text">{{task.description|markdown}}</p>
+            <p>
+                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}.<br>
+                        Updated {{ task.date_altered | datetime }} </small>
+            </p>
             <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
             <a href="#" class="card-link">Delete</a>

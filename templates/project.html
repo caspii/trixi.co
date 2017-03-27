@@ -60,7 +60,10 @@
                 <h5>{{ macros.render_task_badge(task) }}</h5>
             </div>
             <p class="mb-1">
-                <small>Updated {{ task.date_altered | datetime }}</small>
+                <small>
+                    Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>, 
+                    Updated {{ task.date_altered | datetime }}
+                </small>
             </p>
         </a>
         {% else %}

@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% macro render_radio_field(field) -%}
-<label for="priority">Priority </label>
+{% macro render_radio_field(field) %}
+<label for="priority">What is the priority ?</label>
 <div class="btn-group" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
         {% if value == field.data %}
@@ -16,7 +16,17 @@
         {% endif %}
     {% endfor %}
 </div>
-{%- endmacro %}
+{% endmacro %}
+
+{% macro render_select(field) %}
+<div class="form-group {% if field.errors %} error {% endif %}">
+    <label class="control-label">{{ field.label }}</label>
+
+    <div >
+        {{ field(class='form-control')|safe }}
+    </div>
+</div>
+{% endmacro %}
 
 {% block body %}
 
@@ -32,15 +42,17 @@
                 <span class="form-control-feedback">{{ form.title.errors[0] }}</span>
                 {% endif %}
             </div>
-
+            <br>
             {{render_radio_field(form.priority)}}
-
+            <br>
             <div class="card-text form-group {% if form.description.errors %} has-danger {% endif %}">
                 {{ form.description(placeholder="Optional description",class="form-control",id="description") }}
                 {% if form.description.errors %}
                 <span class="form-control-feedback">{{ form.description.errors[0] }}</span>
                 {% endif %}
             </div>
+
+            {{render_select(form.assigned_to)}}
 
             <button type="submit" class="btn btn-primary">
                 <i class="fa fa-check" aria-hidden="true"></i> Save
