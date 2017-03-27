@@ -12,7 +12,7 @@
             <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
                     id="choosePartyButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ current_user_name }}
+                {{ project.people[current_user_id].name }}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% for person in other_people %}
@@ -40,19 +40,20 @@
        ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
 </div>
-
 <br>
+<br>
+
 {% if not tasks %}
 <div class="text-center">
     <h4 class="text-muted">No task has been created yet. Go ahead and create one.</h4>
 </div>
 {% else %}
-<div class="card">
+<div class="card card-outline-primary">
     <div class="card-header">
-        Tasks you own
+        <h4>Tasks you own</h4>
     </div>
     <div class="list-group list-group-flush">
-        {% for task in tasks|selectattr("status", "equalto", 0) %}
+        {% for task in tasks|selectattr("status", "equalto", 0)|selectattr("assigned_to", "equalto", current_user_id) %}
             {{ macros.render_task_for_list(project, task) }}
         {% else %}
         <div class="card-block">
@@ -62,12 +63,32 @@
         </div>
         {% endfor %}
     </div>
-    </div>
-    <br>
+</div>
+<br>
+<br>
 
 <div class="card">
     <div class="card-header">
-        Completed tasks
+        <h4>Tasks owned by others</h4>
+    </div>
+    <div class="list-group list-group-flush">
+        {% for task in tasks|selectattr("status", "equalto", 0)|rejectattr("assigned_to", "equalto", current_user_id) %}
+            {{ macros.render_task_for_list(project, task) }}
+        {% else %}
+        <div class="card-block">
+            <div class="card-text">
+                <p class="text-muted">The others don't own any tasks.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+
+<div class="card card-outline-success">
+    <div class="card-header">
+        <h4>Completed tasks</h4>
     </div>
     <div class="list-group list-group-flush">
         {% for task in tasks|selectattr("status", "equalto", 1) %}
@@ -82,6 +103,4 @@
     </div>
 </div>
 {% endif %}
-
-
 {% endblock %}

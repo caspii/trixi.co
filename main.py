@@ -72,7 +72,6 @@ def view_project(project_key):
     current_user_id = get_user(request, project_key)
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
-    current_user_name = project.people[current_user_id].name
     if request.method == 'POST':
         person_id = request.form['user_id']
         response = make_response(redirect('/project/' + project_key))
@@ -82,7 +81,7 @@ def view_project(project_key):
     other_people = [p for p in project.people if p.id is not current_user_id]
     # Fetch tasks
     tasks = project.get_tasks()
-    return render_template('project.html', current_user_name=current_user_name, other_people=other_people,
+    return render_template('project.html', current_user_id=current_user_id, other_people=other_people,
                            project=project, tasks=tasks)
 
 
