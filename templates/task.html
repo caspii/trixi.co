@@ -21,7 +21,7 @@
             </h6>
             <p class="card-text">{{task.description|markdown}}</p>
             <p>
-                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}.<br>
+                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}.
                         Updated {{ task.date_altered | datetime }} </small>
             </p>
             <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"

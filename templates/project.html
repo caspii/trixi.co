@@ -53,19 +53,7 @@
     </div>
     <div class="list-group list-group-flush">
         {% for task in tasks|selectattr("status", "equalto", 0) %}
-        <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
-           class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ task.title }}</h5>
-                <h5>{{ macros.render_task_badge(task) }}</h5>
-            </div>
-            <p class="mb-1">
-                <small>
-                    Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>, 
-                    Updated {{ task.date_altered | datetime }}
-                </small>
-            </p>
-        </a>
+            {{ macros.render_task_for_list(project, task) }}
         {% else %}
         <div class="card-block">
             <div class="card-text">
@@ -83,16 +71,7 @@
     </div>
     <div class="list-group list-group-flush">
         {% for task in tasks|selectattr("status", "equalto", 1) %}
-        <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
-           class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ task.title }}</h5>
-                <h5>{{ macros.render_task_badge(task) }}</h5>
-            </div>
-            <p class="mb-1">
-                <small>Updated {{ task.date_altered | datetime }}</small>
-            </p>
-        </a>
+            {{ macros.render_task_for_list(project, task) }}
         {% else %}
         <div class="card-block">
             <div class="card-text">
