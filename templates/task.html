@@ -11,18 +11,23 @@
     <br>
     <br>
     <div class="card">
-        <div class="card-block ">
-            <div class="card-title d-flex w-100 justify-content-between">
+        <div class="card-header d-flex w-100 justify-content-between">
+            <div>
                 <h5 class="mb-1">{{ task.title }}</h5>
-                <h5>{{ macros.render_task_badge(task) }}</h5>
+                Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
+                Updated {{ task.date_altered | datetime }}
             </div>
+            <h5>{{ macros.render_task_badge(task) }}</h5>
+        </div>
+
+        <div class="card-block ">
             <h6 class="card-subtitle mb-2 text-muted">
-                Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>,
+
             </h6>
+
             <p class="card-text">{{task.description|markdown}}</p>
             <p>
-                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}.
-                        Updated {{ task.date_altered | datetime }} </small>
+                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}</small>
             </p>
             <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
