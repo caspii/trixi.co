@@ -24,6 +24,7 @@ app.jinja_env.filters['datetime'] = format_datetime
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
+    flash('Note that Trixi is currently in Beta! Not everything is working just yet.')
     return render_template('landing.html', previous_projects=previous_projects)
 
 
@@ -35,6 +36,7 @@ def new():
         session['person_count'] = form.person_count.data
         return redirect(url_for('people'))
     else:
+        flash('Note that Trixi is currently in Beta!')
         return render_template('new_project.html', form=form)
 
 
@@ -42,6 +44,7 @@ def new():
 def people():
     form = PeopleForm(request.form)
     if request.method == 'GET':
+        flash('Note that Trixi is currently in Beta!')
         if not session.get('project_name') or not session.get('person_count'):
             # Means user has not come via first page of wizard,
             # therefore redirect to first page
