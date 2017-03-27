@@ -29,9 +29,14 @@
             <p>
                 <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}</small>
             </p>
-            <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
-                class="card-link">Edit</a>
-            <a href="#" class="card-link">Delete</a>
+            <form class="form-inline"
+                  action="{{ url_for('delete_task', project_key=project.key.id(), task_key=task.key.id()) }}"
+                  id="delete_task" method=post>
+                <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
+                   class="card-link">Edit</a>
+                <a href="#" class="card-link"
+                   onclick="if (confirm('Are you sure?')) { $('#delete_task').submit() } else {return false}">Delete</a>
+            </form>
         </div>
     </div>
     <br>

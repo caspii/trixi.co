@@ -13,5 +13,12 @@ indexes:
 - kind: Task
   ancestor: yes
   properties:
+  - name: active
+  - name: priority
+    direction: desc
+
+- kind: Task
+  ancestor: yes
+  properties:
   - name: priority
     direction: desc

@@ -16,6 +16,7 @@ class Project(ndb.Model):
     date_altered = ndb.DateTimeProperty(auto_now=True)
     name = ndb.StringProperty(required=True)
     people = ndb.StructuredProperty(Person, repeated=True)
+    active = ndb.BooleanProperty(default=True)
 
     @classmethod
     def new(cls, name, people_names):
@@ -35,7 +36,7 @@ class Project(ndb.Model):
         return ndb_project_key.get()
 
     def get_tasks(self):
-        task_query = Task.query(ancestor=self.key).order(-Task.priority)
+        task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority)
         return [t for t in task_query]
 
     def touch(self):
@@ -57,7 +58,8 @@ class Task(ndb.Model):
     status = ndb.IntegerProperty(required=True, default=0)  # 0=Open, 1=Completed
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
-    assigned_to = ndb.IntegerProperty()
+    assigned_to = ndb.IntegerProperty(required=True)
+    active = ndb.BooleanProperty(default=True)
 
     @classmethod
     def new(cls, parent, title, priority, created_by, assigned_to, description=None):
@@ -71,7 +73,11 @@ class Task(ndb.Model):
     def get_task(cls, project, task_key):
         """Fetch a task from the Datastore"""
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
-        return ndb_task_key.get()
+        task = ndb_task_key.get()
+        if task.active == True:
+            return task
+        else:
+            return None
 
     def update(self, title, priority, description, assigned_to):
         self.title = title
@@ -82,4 +88,8 @@ class Task(ndb.Model):
 
     def set_status(self, status):
         self.status = status
+        self.put()
+
+    def delete(self):
+        self.active = False
         self.put()

@@ -140,7 +140,15 @@ def toggle_task_status(project_key, task_key):
     else:
         flash('Task not complete: ' + task.title)
         task.set_status(0)
+    return redirect(url_for('view_project', project_key=project_key))
 
+
+@app.route('/delete_tasks/<project_key>/<task_key>', methods=['POST'])
+def delete_task(project_key, task_key):
+    project = Project.get_project(project_key)
+    task = Task.get_task(project, task_key)
+    flash('Task deleted: ' + task.title)
+    task.delete()
     return redirect(url_for('view_project', project_key=project_key))
 
 
@@ -148,6 +156,8 @@ def toggle_task_status(project_key, task_key):
 def view_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
+    if task is None:
+        abort(404)
     return render_template('task.html', task=task, project=project)
 
 
