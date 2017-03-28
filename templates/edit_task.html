@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% macro render_radio_field(field) %}
 <label for="priority">What is the priority ?</label>
-<div class="btn-group" data-toggle="buttons">
+<div class="btn-group mt-2 mb-2" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
         {% if value == field.data %}
     <label class="btn btn-outline-info active">
@@ -19,8 +19,8 @@
 {% endmacro %}
 
 {% macro render_select(field) %}
-<div class="form-group {% if field.errors %} error {% endif %}">
-    <label class="control-label">{{ field.label }}</label>
+<div class="form-group mt-2 {% if field.errors %} error {% endif %}">
+    <label class="control-label mb-0">{{ field.label }}</label>
 
     <div >
         {{ field(class='form-control')|safe }}
@@ -42,9 +42,8 @@
                 <span class="form-control-feedback">{{ form.title.errors[0] }}</span>
                 {% endif %}
             </div>
-            <br>
+
             {{render_radio_field(form.priority)}}
-            <br>
             <div class="card-text form-group {% if form.description.errors %} has-danger {% endif %}">
                 {{ form.description(placeholder="Optional description",class="form-control",id="description") }}
                 {% if form.description.errors %}

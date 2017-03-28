@@ -1,10 +1,10 @@
 {% macro render_task_badge(task) %}
     {% if task.status == 1 %}
-        <span class="badge badge-success">Complete</span>
+        <span class="badge badge-success ml-1">Complete</span>
     {% elif task.priority == 0 %}
-        <span class="badge badge-default">Low priority</span>
+        <span class="badge badge-default ml-1">Low priority</span>
     {% elif task.priority == 2 %}
-      <span class="badge badge-warning">Urgent</span>
+      <span class="badge badge-warning ml-1">Urgent</span>
     {% endif %}
 {% endmacro %}
 
