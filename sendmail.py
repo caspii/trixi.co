@@ -1,25 +1,24 @@
-import httplib2
 import logging
 from urllib import urlencode
+
+import httplib2
 
 MAILGUN_API_KEY = 'key-4b87291653134a800f45522ab1679d39'
 MAILGUN_DOMAIN_NAME = 'mg.casparwre.de'
 REQUEST_URL = 'https://api.mailgun.net/v3/{0}/messages'.format(MAILGUN_DOMAIN_NAME)
-SUBJECT = "Something just happened"
-BODY_TEXT = "Click here"
-DEFAULT_RECIPIENT='caspar.wrede@gmail.com'
+SUBJECT = "Project created: %s"
+BODY_TEXT = "Click here to see it: https://trixi.co/project/%s"
 
-def gameComplete(game):
+
+def project_created(title, id):
     http = httplib2.Http()
     http.add_credentials('api', MAILGUN_API_KEY)
 
-    if game.emails is not None:
-        logging.info("Sending complete mail to " + game.emails)
     data = {
-        'from': 'Kittydo <no-reply@kittydo>',
-        'to': 'Me <caspar.wrede@gmail.com>',
-        'subject': SUBJECT,
-        'text': BODY_TEXT
+        'from': 'Trixi <no-reply@trixi.co>',
+        'to': 'Admin <caspar.wrede@gmail.com>',
+        'subject': SUBJECT % title,
+        'text': BODY_TEXT % id
     }
     resp, content = http.request(
         REQUEST_URL, 'POST', urlencode(data),
