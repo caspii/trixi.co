@@ -1,10 +1,10 @@
 {% macro render_task_badge(task) %}
     {% if task.status == 1 %}
-        <span class="badge badge-success">Complete</span>
+        <span class="badge badge-success ml-1">Complete</span>
     {% elif task.priority == 0 %}
-        <span class="badge badge-default">Low priority</span>
+        <span class="badge badge-default ml-1">Low priority</span>
     {% elif task.priority == 2 %}
-      <span class="badge badge-warning">Urgent</span>
+      <span class="badge badge-warning ml-1">Urgent</span>
     {% endif %}
 {% endmacro %}
 
@@ -12,14 +12,20 @@
 <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
    class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{ task.title }}</h5>
-        <h5>{{ render_task_badge(task) }}</h5>
+        <h5 class="mb-2">{{ task.title }}</h5>
+        <h5 class="mb-2">{{ render_task_badge(task) }}</h5>
     </div>
-    <p class="mb-1">
-        <small>
+    <div class="d-flex w-100 justify-content-between">
+        <div class="small mb-1">
             Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>,
             Updated {{ task.date_altered | datetime }}
-        </small>
-    </p>
+        </div>
+        {% if task.comments %}
+            <div class="small">
+                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                {{ task.comments|length }} comments
+            </div>
+        {% endif %}
+    </div>
 </a>
 {% endmacro %}

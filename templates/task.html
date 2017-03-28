@@ -2,9 +2,20 @@
 {% import "_macros.jinja" as macros %}
 {% block body %}
 
+<form id="delete_comment_form" action="{{ url_for('delete_comment',
+    project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+    <input type="hidden" name="delete_comment" id="delete_comment" >
+</form>
+
+<form id="toggle_task_status_form" action="{{ url_for('toggle_task_status',
+    project_key=project.key.id(), task_key=task.key.id()) }}"
+      method=post>
+      <input type="hidden" name="placeholder" id="placeholder" >
+ </form>
+
 <div>
     <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
-       role="button" class="btn btn-sm btn-outline-info">
+       role="button" class="btn btn-sm btn-outline-info mt-2">
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
         Back to project
     </a>
@@ -14,40 +25,66 @@
         <div class="card-header d-flex w-100 justify-content-between">
             <div>
                 <h5 class="mb-1">{{ task.title }}</h5>
-                Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
-                Updated {{ task.date_altered | datetime }}
+                <small>Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
+                Updated {{ task.date_altered | datetime }}</small>
             </div>
             <h5>{{ macros.render_task_badge(task) }}</h5>
         </div>
 
         <div class="card-block ">
-            <h6 class="card-subtitle mb-2 text-muted">
-
-            </h6>
-
             <p class="card-text">{{task.description|markdown}}</p>
-            <p>
-                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}</small>
-            </p>
-            <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
+
+            <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
+                {% if task.status == 0 %}
+                <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
+                {% else %}
+                Mark as not completed
+                {% endif %}
+            </button>
+            <a class="btn btn-outline-primary" href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
-            <a href="#" class="card-link">Delete</a>
+            <a class="btn btn-outline-primary" href="#" class="card-link">Delete</a>
         </div>
     </div>
     <br>
 
-    <form action="{{ url_for('toggle_task_status', project_key=project.key.id(), task_key=task.key.id()) }}"
-          method=post>
-        <button type="submit" class="btn btn-success">
-            {% if task.status == 0 %}
-            <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
-            {% else %}
-            Mark as not completed
-            {% endif %}
-        </button>
-    </form>
 
 
+    <br>
+    <div class="card">
+        <div class="card-block ">
+            <div class="card-title">
+                <h5 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h5>
+            </div>
 
+            <div class="card-text">
+                {% for comment in task.get_comments() %}
+                    <p class="mb-2 ml-2">{{ comment.text }}
+                        <span class="text-muted small">&mdash;&nbsp;{{project.people[comment.created_by].name}}
+                            ({{ comment.date_created | datetime }})</span>
+                        <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
+                            data-id="{{ loop.index0 }}"
+                            onclick="$('#delete_comment').val($(this).data('id')); $('#delete_comment_form').submit()">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </p>
+                {% endfor %}
+
+                <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+                    <div class="form-group mb-1 {% if form.comment.errors %} has-danger {% endif %}">
+                        {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
+                        {% if form.comment.errors %}
+                        <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-outline-success">
+                        Comment
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <br>
 </div>
 {% endblock %}

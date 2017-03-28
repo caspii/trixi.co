@@ -5,9 +5,9 @@ from google.appengine.ext import ndb
 
 
 class Person(ndb.Model):
-    name = ndb.StringProperty()
-    active = ndb.BooleanProperty(default=True)
-    id = ndb.IntegerProperty()
+    name = ndb.StringProperty(required=True)
+    active = ndb.BooleanProperty(required=True, default=True)
+    id = ndb.IntegerProperty(required=True)
 
 
 class Project(ndb.Model):
@@ -35,7 +35,7 @@ class Project(ndb.Model):
         return ndb_project_key.get()
 
     def get_tasks(self):
-        task_query = Task.query(ancestor=self.key).order(-Task.priority)
+        task_query = Task.query(ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
         return [t for t in task_query]
 
     def touch(self):
@@ -44,8 +44,10 @@ class Project(ndb.Model):
         ndb_project_key.get().put()
 
 
-class Priority:
-    low, normal, high = range(3)
+class Comment(ndb.Model):
+    text = ndb.TextProperty(required=True)
+    created_by = ndb.IntegerProperty(required=True)
+    date_created = ndb.DateTimeProperty(auto_now_add=True)
 
 
 class Task(ndb.Model):
@@ -57,7 +59,8 @@ class Task(ndb.Model):
     status = ndb.IntegerProperty(required=True, default=0)  # 0=Open, 1=Completed
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
-    assigned_to = ndb.IntegerProperty()
+    assigned_to = ndb.IntegerProperty(required=True)
+    comments = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
     def new(cls, parent, title, priority, created_by, assigned_to, description=None):
@@ -73,13 +76,33 @@ class Task(ndb.Model):
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         return ndb_task_key.get()
 
+    def touch_parent(self):
+        """Touch parent's update field"""
+        self.key.parent().get().touch()
+
     def update(self, title, priority, description, assigned_to):
         self.title = title
         self.priority = priority
         self.description = description
         self.assigned_to = assigned_to
+        self.touch_parent()
         self.put()
 
     def set_status(self, status):
         self.status = status
+        self.touch_parent()
+        self.put()
+
+    def add_comment(self, text, created_by):
+        comment = Comment(text=text, created_by=created_by)
+        self.comments.append(comment)
+        self.touch_parent()
+        self.put()
+
+    def get_comments(self):
+        return self.comments
+
+    def delete_comment(self, id):
+        self.comments.pop(id)
+        self.touch_parent()
         self.put()
