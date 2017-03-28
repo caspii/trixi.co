@@ -5,9 +5,9 @@ from google.appengine.ext import ndb
 
 
 class Person(ndb.Model):
-    name = ndb.StringProperty()
-    active = ndb.BooleanProperty(default=True)
-    id = ndb.IntegerProperty()
+    name = ndb.StringProperty(required=True)
+    active = ndb.BooleanProperty(required=True, default=True)
+    id = ndb.IntegerProperty(required=True)
 
 
 class Project(ndb.Model):
@@ -44,8 +44,11 @@ class Project(ndb.Model):
         ndb_project_key.get().put()
 
 
-class Priority:
-    low, normal, high = range(3)
+class Comment(ndb.Model):
+    id = ndb.IntegerProperty(required=True)
+    comment = ndb.TextProperty(required=True)
+    active = ndb.BooleanProperty(required=True, default=True)
+    created_by = ndb.IntegerProperty(required=True)
 
 
 class Task(ndb.Model):
@@ -57,7 +60,8 @@ class Task(ndb.Model):
     status = ndb.IntegerProperty(required=True, default=0)  # 0=Open, 1=Completed
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
-    assigned_to = ndb.IntegerProperty()
+    assigned_to = ndb.IntegerProperty(required=True)
+    people = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
     def new(cls, parent, title, priority, created_by, assigned_to, description=None):
