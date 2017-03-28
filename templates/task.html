@@ -45,23 +45,25 @@
                 <h6 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h6>
             </div>
 
-            {% for comment in task.get_comments() %}
+            <div class="card-text">
+                {% for comment in task.get_comments() %}
+                    <p>{{ comment.text }}
+                        <span class="text-muted">&mdash;&nbsp;{{project.people[comment.created_by].name}}</span>
+                    </p>
+                {% endfor %}
 
-                {{ comment.text }} by {{project.people[comment.created_by].name}} <br>
-
-            {% endfor %}
-
-            <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
-            <div class="card-text form-group {% if form.comment.errors %} has-danger {% endif %}">
-                {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
-                {% if form.comment.errors %}
-                <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
-                {% endif %}
+                <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+                    <div class="form-group {% if form.comment.errors %} has-danger {% endif %}">
+                        {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
+                        {% if form.comment.errors %}
+                        <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-outline-success">
+                        Comment
+                    </button>
+                </form>
             </div>
-                <button type="submit" class="btn btn-sm btn-outline-success">
-                    Comment
-                </button>
-            </form>
 
         </div>
     </div>
