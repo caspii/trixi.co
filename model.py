@@ -45,9 +45,7 @@ class Project(ndb.Model):
 
 
 class Comment(ndb.Model):
-    # id = ndb.IntegerProperty(required=True)
     text = ndb.TextProperty(required=True)
-    active = ndb.BooleanProperty(required=True, default=True)
     created_by = ndb.IntegerProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
 
@@ -98,5 +96,5 @@ class Task(ndb.Model):
         return self.comments
 
     def delete_comment(self, id):
-        self.comments[id].active = False
+        self.comments.pop(id)
         self.put()

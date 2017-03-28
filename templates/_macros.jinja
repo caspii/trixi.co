@@ -12,14 +12,20 @@
 <a href="/task/{{project.key.id()}}/{{task.key.id()}}"
    class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{ task.title }}</h5>
-        <h5>{{ render_task_badge(task) }}</h5>
+        <h5 class="mb-2">{{ task.title }}</h5>
+        <h5 class="mb-2">{{ render_task_badge(task) }}</h5>
     </div>
-    <p class="mb-1">
-        <small>
+    <div class="d-flex w-100 justify-content-between">
+        <div class="small mb-1">
             Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>,
             Updated {{ task.date_altered | datetime }}
-        </small>
-    </p>
+        </div>
+        {% if task.comments %}
+            <div class="small">
+                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                {{ task.comments|length }} comments
+            </div>
+        {% endif %}
+    </div>
 </a>
 {% endmacro %}

@@ -53,8 +53,7 @@
 
             <div class="card-text">
                 {% for comment in task.get_comments() %}
-                    {% if comment.active %}
-                    <p class="mb-1 ml-2">{{ comment.text }}
+                    <p class="mb-2 ml-2">{{ comment.text }}
                         <span class="text-muted small">&mdash;&nbsp;{{project.people[comment.created_by].name}}
                             ({{ comment.date_created | datetime }})</span>
                         <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
@@ -63,7 +62,6 @@
                             <span aria-hidden="true">&times;</span>
                         </a>
                     </p>
-                    {% endif %}
                 {% endfor %}
 
                 <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
