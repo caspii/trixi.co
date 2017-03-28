@@ -1,6 +1,7 @@
 import base64
 import os
 
+from flask import abort
 from google.appengine.ext import ndb
 
 
@@ -33,7 +34,11 @@ class Project(ndb.Model):
     def get_project(cls, project_key):
         """Fetch a project from the Datastore"""
         ndb_project_key = ndb.Key(Project, project_key)
-        return ndb_project_key.get()
+        project = ndb_project_key.get()
+        if project is None:
+            abort(404)
+        else:
+            return project
 
     def get_tasks(self):
         task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
@@ -77,10 +82,10 @@ class Task(ndb.Model):
         """Fetch a task from the Datastore"""
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         task = ndb_task_key.get()
-        if task.active is True:
-            return task
+        if task is None or task.active is False:
+            abort(404)
         else:
-            return None
+            return task
 
     def touch_parent(self):
         """Touch parent's update field"""

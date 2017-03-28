@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
+from flask import Flask, render_template, request, flash, redirect, url_for, session, make_response
 from flaskext.markdown import Markdown
 
 from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm, CommentForm
@@ -69,9 +69,6 @@ def people():
 @app.route('/project/<project_key>', methods=['GET', 'POST'])
 def view_project(project_key):
     project = Project.get_project(project_key)
-    if project is None:
-        logging.exception("Project could not be retrieved: " + project_key)
-        abort(404)
     current_user_id = get_user(request, project_key)
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
@@ -182,9 +179,6 @@ def view_task(project_key, task_key):
 def who_are_you(project_key):
     project = Project.get_project(project_key)
     form = WhoAreYouForm(request.form)
-    if project is None:
-        logging.exception("Project could not be retrieved: " + project_key)
-        abort(404)
     # Populate radio buttons
     categories = [(p.id, p.name) for p in project.people]
     form.people.choices = categories
