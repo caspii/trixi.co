@@ -140,8 +140,17 @@ def toggle_task_status(project_key, task_key):
     else:
         flash('Task not complete: ' + task.title)
         task.set_status(0)
-
     return redirect(url_for('view_project', project_key=project_key))
+
+
+@app.route('/delete_comment/<project_key>/<task_key>', methods=['POST'])
+def delete_comment(project_key, task_key):
+    project = Project.get_project(project_key)
+    task = Task.get_task(project, task_key)
+    deletion_id = int(request.form['delete_comment'])
+    task.delete_comment(deletion_id)
+    flash('Comment was deleted')
+    return redirect(url_for('view_task', project_key=project_key, task_key=task_key))
 
 
 @app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
@@ -150,8 +159,6 @@ def view_task(project_key, task_key):
     task = Task.get_task(project, task_key)
     current_user_id = get_user(request, project_key)
     form = CommentForm(request.form)
-    print "TASK"
-    print request.form
     if request.method == 'POST' and form.validate():
         flash("Your comment was added")
         task.add_comment(form.comment.data, current_user_id)

@@ -2,6 +2,12 @@
 {% import "_macros.jinja" as macros %}
 {% block body %}
 
+<form id="delete_comment_form" action="{{ url_for('delete_comment',
+    project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+    <input type="hidden" name="delete_comment" id="delete_comment" >
+</form>
+
+
 <div>
     <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
        role="button" class="btn btn-sm btn-outline-info">
@@ -14,8 +20,8 @@
         <div class="card-header d-flex w-100 justify-content-between">
             <div>
                 <h5 class="mb-1">{{ task.title }}</h5>
-                Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
-                Updated {{ task.date_altered | datetime }}
+                <small>Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
+                Updated {{ task.date_altered | datetime }}</small>
             </div>
             <h5>{{ macros.render_task_badge(task) }}</h5>
         </div>
@@ -47,13 +53,21 @@
 
             <div class="card-text">
                 {% for comment in task.get_comments() %}
-                    <p>{{ comment.text }}
-                        <span class="text-muted">&mdash;&nbsp;{{project.people[comment.created_by].name}}</span>
+                    {% if comment.active %}
+                    <p class="mb-1 ml-2">{{ comment.text }}
+                        <span class="text-muted small">&mdash;&nbsp;{{project.people[comment.created_by].name}}
+                            ({{ comment.date_created | datetime }})</span>
+                        <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
+                            data-id="{{ loop.index0 }}"
+                            onclick="$('#delete_comment').val($(this).data('id')); $('#delete_comment_form').submit()">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
                     </p>
+                    {% endif %}
                 {% endfor %}
 
                 <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
-                    <div class="form-group {% if form.comment.errors %} has-danger {% endif %}">
+                    <div class="form-group mb-1 {% if form.comment.errors %} has-danger {% endif %}">
                         {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
                         {% if form.comment.errors %}
                         <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
