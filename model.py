@@ -36,8 +36,7 @@ class Project(ndb.Model):
         return ndb_project_key.get()
 
     def get_tasks(self):
-        task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority)
-        task_query = Task.query(ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
+        task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
         return [t for t in task_query]
 
     def touch(self):
@@ -63,7 +62,6 @@ class Task(ndb.Model):
     description = ndb.TextProperty()
     assigned_to = ndb.IntegerProperty(required=True)
     active = ndb.BooleanProperty(default=True)
-    assigned_to = ndb.IntegerProperty(required=True)
     comments = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
@@ -79,7 +77,7 @@ class Task(ndb.Model):
         """Fetch a task from the Datastore"""
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         task = ndb_task_key.get()
-        if task.active == True:
+        if task.active is True:
             return task
         else:
             return None

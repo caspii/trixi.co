@@ -13,6 +13,15 @@ indexes:
 - kind: Task
   ancestor: yes
   properties:
+  - name: active
+  - name: priority
+    direction: desc
+  - name: date_altered
+    direction: desc
+
+- kind: Task
+  ancestor: yes
+  properties:
   - name: date_altered
   - name: priority
     direction: desc
