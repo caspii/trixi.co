@@ -16,6 +16,7 @@ class Project(ndb.Model):
     date_altered = ndb.DateTimeProperty(auto_now=True)
     name = ndb.StringProperty(required=True)
     people = ndb.StructuredProperty(Person, repeated=True)
+    active = ndb.BooleanProperty(default=True)
 
     @classmethod
     def new(cls, name, people_names):
@@ -35,6 +36,7 @@ class Project(ndb.Model):
         return ndb_project_key.get()
 
     def get_tasks(self):
+        task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority)
         task_query = Task.query(ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
         return [t for t in task_query]
 
@@ -60,6 +62,8 @@ class Task(ndb.Model):
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
     assigned_to = ndb.IntegerProperty(required=True)
+    active = ndb.BooleanProperty(default=True)
+    assigned_to = ndb.IntegerProperty(required=True)
     comments = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
@@ -74,7 +78,11 @@ class Task(ndb.Model):
     def get_task(cls, project, task_key):
         """Fetch a task from the Datastore"""
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
-        return ndb_task_key.get()
+        task = ndb_task_key.get()
+        if task.active == True:
+            return task
+        else:
+            return None
 
     def touch_parent(self):
         """Touch parent's update field"""
@@ -91,6 +99,10 @@ class Task(ndb.Model):
     def set_status(self, status):
         self.status = status
         self.touch_parent()
+        self.put()
+
+    def delete(self):
+        self.active = False
         self.put()
 
     def add_comment(self, text, created_by):
