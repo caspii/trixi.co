@@ -7,6 +7,11 @@
     <input type="hidden" name="delete_comment" id="delete_comment" >
 </form>
 
+<form id="toggle_task_status_form" action="{{ url_for('toggle_task_status',
+    project_key=project.key.id(), task_key=task.key.id()) }}"
+      method=post>
+      <input type="hidden" name="placeholder" id="placeholder" >
+ </form>
 
 <div>
     <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
@@ -28,27 +33,28 @@
 
         <div class="card-block ">
             <p class="card-text">{{task.description|markdown}}</p>
-            <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
+
+            <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
+                {% if task.status == 0 %}
+                <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
+                {% else %}
+                Mark as not completed
+                {% endif %}
+            </button>
+            <a class="btn btn-outline-primary" href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
-            <a href="#" class="card-link">Delete</a>
+            <a class="btn btn-outline-primary" href="#" class="card-link">Delete</a>
         </div>
     </div>
     <br>
-    <form action="{{ url_for('toggle_task_status', project_key=project.key.id(), task_key=task.key.id()) }}"
-          method=post>
-        <button type="submit" class="btn btn-success">
-            {% if task.status == 0 %}
-            <i class="fa fa-check" aria-hidden="true"></i> Mark as completed
-            {% else %}
-            Mark as not completed
-            {% endif %}
-        </button>
-    </form>
+
+
+
     <br>
     <div class="card">
         <div class="card-block ">
             <div class="card-title">
-                <h6 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h6>
+                <h5 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h5>
             </div>
 
             <div class="card-text">
