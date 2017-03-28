@@ -6,13 +6,11 @@
         {% if value == field.data %}
     <label class="btn btn-outline-info active">
             <input type="radio" autocomplete="off" name="{{ field.id }}"
-            id="{{ field.id }}" value="{{ value }}" checked>{{ label }}
-        </label>
+                   id="{{ field.id }}" value="{{ value }}" checked>{{ label }}</label>
         {% else %}
     <label class="btn btn-outline-info">
             <input type="radio" autocomplete="off" name="{{ field.id }}"
-            id="{{ field.id }}" value="{{ value }}">{{ label }}
-        </label>
+                   id="{{ field.id }}" value="{{ value }}">{{ label }}</label>
         {% endif %}
     {% endfor %}
 </div>
