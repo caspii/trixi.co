@@ -10,8 +10,8 @@
 {%- endmacro %}
 
 {% block body %}
-<h2>Welcome!</h2>
-<p>This is the online project for <strong>{{ project.name }}</strong> created by {{ project.people[0].name }}</p>
+<h2>Hi!</h2>
+<p>This is the task list for <strong>{{ project.name }}</strong> created by {{ project.people[0].name }}</p>
 <p>To begin, please select your name:</p>
 <form action="{{ url_for('who_are_you', project_key=project.key.id()) }}" method=post>
 
