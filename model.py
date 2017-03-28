@@ -61,7 +61,7 @@ class Task(ndb.Model):
     priority = ndb.IntegerProperty(required=True)
     description = ndb.TextProperty()
     assigned_to = ndb.IntegerProperty(required=True)
-    people = ndb.StructuredProperty(Comment, repeated=True)
+    comments = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
     def new(cls, parent, title, priority, created_by, assigned_to, description=None):
