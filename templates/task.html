@@ -21,21 +21,13 @@
         </div>
 
         <div class="card-block ">
-            <h6 class="card-subtitle mb-2 text-muted">
-
-            </h6>
-
             <p class="card-text">{{task.description|markdown}}</p>
-            <p>
-                <small>Created {{ task.date_created | datetime }} by {{ project.people[task.created_by].name }}</small>
-            </p>
             <a href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}"
                 class="card-link">Edit</a>
             <a href="#" class="card-link">Delete</a>
         </div>
     </div>
     <br>
-
     <form action="{{ url_for('toggle_task_status', project_key=project.key.id(), task_key=task.key.id()) }}"
           method=post>
         <button type="submit" class="btn btn-success">
@@ -46,8 +38,33 @@
             {% endif %}
         </button>
     </form>
+    <br>
+    <div class="card">
+        <div class="card-block ">
+            <div class="card-title">
+                <h6 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h6>
+            </div>
 
+            {% for comment in task.get_comments() %}
 
+                {{ comment.text }} by {{project.people[comment.created_by].name}} <br>
 
+            {% endfor %}
+
+            <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+            <div class="card-text form-group {% if form.comment.errors %} has-danger {% endif %}">
+                {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
+                {% if form.comment.errors %}
+                <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
+                {% endif %}
+            </div>
+                <button type="submit" class="btn btn-sm btn-outline-success">
+                    Comment
+                </button>
+            </form>
+
+        </div>
+    </div>
+    <br>
 </div>
 {% endblock %}

@@ -30,3 +30,7 @@ class TaskForm(Form):
     description = TextAreaField('Optional description', [validators.Length(min=0, max=4000)])
     priority = RadioField('priority', choices=[('0', 'Low'), ('1', 'Normal'), ('2', 'Urgent')], default='1')
     assigned_to = SelectField('Who\'s the owner?', coerce=int, choices=[])
+
+
+class CommentForm(Form):
+    comment = TextAreaField('Add a comment', [validators.Length(min=1, max=4000)])

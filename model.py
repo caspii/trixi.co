@@ -45,8 +45,8 @@ class Project(ndb.Model):
 
 
 class Comment(ndb.Model):
-    id = ndb.IntegerProperty(required=True)
-    comment = ndb.TextProperty(required=True)
+    # id = ndb.IntegerProperty(required=True)
+    text = ndb.TextProperty(required=True)
     active = ndb.BooleanProperty(required=True, default=True)
     created_by = ndb.IntegerProperty(required=True)
 
@@ -87,3 +87,11 @@ class Task(ndb.Model):
     def set_status(self, status):
         self.status = status
         self.put()
+
+    def add_comment(self, text, created_by):
+        comment = Comment(text=text, created_by=created_by)
+        self.comments.append(comment)
+        self.put()
+
+    def get_comments(self):
+        return self.comments

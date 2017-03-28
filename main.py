@@ -3,7 +3,7 @@ import logging
 from flask import Flask, render_template, request, flash, redirect, url_for, abort, session, make_response
 from flaskext.markdown import Markdown
 
-from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm
+from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm, CommentForm
 from humantime import pretty_date
 from model import Project, Task
 from session_manager import store_user, get_user, get_previous_projects
@@ -148,7 +148,15 @@ def toggle_task_status(project_key, task_key):
 def view_task(project_key, task_key):
     project = Project.get_project(project_key)
     task = Task.get_task(project, task_key)
-    return render_template('task.html', task=task, project=project)
+    current_user_id = get_user(request, project_key)
+    form = CommentForm(request.form)
+    print "TASK"
+    print request.form
+    if request.method == 'POST' and form.validate():
+        flash("Your comment was added")
+        task.add_comment(form.comment.data, current_user_id)
+        return redirect(url_for('view_task', project_key=project_key, task_key=task_key))
+    return render_template('task.html', task=task, project=project, form=form)
 
 
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
