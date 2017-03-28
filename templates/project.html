@@ -91,7 +91,7 @@
         <h4 class="mb-0">Completed tasks</h4>
     </div>
     <div class="list-group list-group-flush">
-        {% for task in tasks|selectattr("status", "equalto", 1) %}
+        {% for task in tasks|selectattr("status", "equalto", 1)|sort(reverse=True, attribute='date_altered') %}
             {{ macros.render_task_for_list(project, task) }}
         {% else %}
         <div class="card-block">
