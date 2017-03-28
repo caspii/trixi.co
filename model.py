@@ -76,20 +76,27 @@ class Task(ndb.Model):
         ndb_task_key = ndb.Key(Project, project.key.id(), Task, task_key)
         return ndb_task_key.get()
 
+    def touch_parent(self):
+        """Touch parent's update field"""
+        self.key.parent().get().touch()
+
     def update(self, title, priority, description, assigned_to):
         self.title = title
         self.priority = priority
         self.description = description
         self.assigned_to = assigned_to
+        self.touch_parent()
         self.put()
 
     def set_status(self, status):
         self.status = status
+        self.touch_parent()
         self.put()
 
     def add_comment(self, text, created_by):
         comment = Comment(text=text, created_by=created_by)
         self.comments.append(comment)
+        self.touch_parent()
         self.put()
 
     def get_comments(self):
@@ -97,4 +104,5 @@ class Task(ndb.Model):
 
     def delete_comment(self, id):
         self.comments.pop(id)
+        self.touch_parent()
         self.put()
