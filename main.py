@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, render_template, request, flash, redirect, url_for, session, make_response
+from flask import Flask, render_template, request, flash, redirect, url_for, session, make_response, abort
 from flaskext.markdown import Markdown
 
 from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm, CommentForm
@@ -69,6 +69,8 @@ def people():
 @app.route('/project/<project_key>', methods=['GET', 'POST'])
 def view_project(project_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     current_user_id = get_user(request, project_key)
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
@@ -89,6 +91,8 @@ def view_project(project_key):
 def create_task(project_key):
     form = TaskForm(request.form)
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     current_user_id = get_user(request, project_key)
     if current_user_id is None:
         return redirect(url_for('who_are_you', project_key=project_key))
@@ -116,6 +120,8 @@ def create_task(project_key):
 def edit_task(project_key, task_key):
     form = TaskForm(request.form)
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     task = Task.get_task(project, task_key)
     choices = [(p.id, p.name) for p in project.people]
     form.assigned_to.choices = choices
@@ -133,6 +139,8 @@ def edit_task(project_key, task_key):
 @app.route('/toggle_task_status/<project_key>/<task_key>', methods=['POST'])
 def toggle_task_status(project_key, task_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     task = Task.get_task(project, task_key)
     if task.status == 0:
         flash('Completed: ' + task.title)
@@ -146,6 +154,8 @@ def toggle_task_status(project_key, task_key):
 @app.route('/delete_tasks/<project_key>/<task_key>', methods=['POST'])
 def delete_task(project_key, task_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     task = Task.get_task(project, task_key)
     flash('Task deleted: ' + task.title)
     task.delete()
@@ -155,6 +165,8 @@ def delete_task(project_key, task_key):
 @app.route('/delete_comment/<project_key>/<task_key>', methods=['POST'])
 def delete_comment(project_key, task_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     task = Task.get_task(project, task_key)
     deletion_id = int(request.form['delete_comment'])
     task.delete_comment(deletion_id)
@@ -165,6 +177,8 @@ def delete_comment(project_key, task_key):
 @app.route('/task/<project_key>/<task_key>', methods=['GET', 'POST'])
 def view_task(project_key, task_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     task = Task.get_task(project, task_key)
     current_user_id = get_user(request, project_key)
     form = CommentForm(request.form)
@@ -178,6 +192,8 @@ def view_task(project_key, task_key):
 @app.route('/who_are_you/<project_key>', methods=['GET', 'POST'])
 def who_are_you(project_key):
     project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
     form = WhoAreYouForm(request.form)
     # Populate radio buttons
     categories = [(p.id, p.name) for p in project.people]

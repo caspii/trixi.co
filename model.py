@@ -35,10 +35,7 @@ class Project(ndb.Model):
         """Fetch a project from the Datastore"""
         ndb_project_key = ndb.Key(Project, project_key)
         project = ndb_project_key.get()
-        if project is None:
-            abort(404)
-        else:
-            return project
+        return project
 
     def get_tasks(self):
         task_query = Task.query(Task.active == True, ancestor=self.key).order(-Task.priority).order(-Task.date_altered)
