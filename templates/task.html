@@ -33,7 +33,7 @@
         </div>
 
         <div class="card-block ">
-            <p class="card-text">{{task.description|markdown}}</p>
+            {{task.description|markdown}}
 
             {% if task.status == 0 %}
                 <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
@@ -47,10 +47,6 @@
             <a class="btn btn-outline-primary" href="#" onclick="if (confirm('Are you sure you want to delete this task?')) { $('#delete_task').submit() } else {return false}">Delete</a>
         </div>
     </div>
-    <br>
-
-
-
     <br>
     <div class="card">
         <div class="card-block ">

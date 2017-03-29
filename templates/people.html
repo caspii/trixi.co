@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <h2>Who's involved?</h2>
-<p>Enter the names of everyone who is participating.</p>
+<p class="mb-1 mt-2">Enter the names of everyone who is participating.</p>
 <form action="{{ url_for('people', project_key=project_key) }}" method=post>
 
     {% for person in form.people %}
@@ -19,9 +19,9 @@
     </div>
     {% endfor %}
 
-    <p class="text-muted">You can add or remove people later.</p>
+    <p class="text-muted"> <i class="fa fa-info-circle" aria-hidden="true"></i> You can add or remove people later.</p>
     <br>
-    <input type="button" class="btn btn-lg btn-default" value="Back" onClick="history.go(-1);return true;">
+    <input type="button" class="btn btn-lg btn-outline-primary" value="Back" onClick="history.go(-1);return true;">
     <button type="submit" class="btn btn-lg btn-primary" ga-on="click" ga-event-category="UI"
             ga-event-action="new game 2" id="next">Next
     </button>
