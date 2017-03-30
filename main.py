@@ -24,7 +24,7 @@ app.jinja_env.filters['datetime'] = format_datetime
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
-    flash('Note that Trixi is currently in Beta! Not everything is working just yet.')
+    flash('Trixi is currently in <strong>Beta</strong>. Not everything is working just yet.')
     return render_template('landing.html', previous_projects=previous_projects)
 
 
@@ -212,6 +212,11 @@ def who_are_you(project_key):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/edit_project')
+def edit_project():
+    return render_template('edit_project.html')
 
 
 @app.errorhandler(500)
