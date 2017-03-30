@@ -16,10 +16,10 @@
         </ul>
 
 
-        <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user" method=post>
-            <div class="d-flex flex-row-reverse">
-                <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
-            </div>
+        <form class="form-inline my-2 my-lg-0" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user" method=post>
+
+            <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
+
 
             <input id="user_id" name="user_id" type="hidden">
             <label class="ml-2 mr-1" for="choosePartyButton">You are </label>
