@@ -27,14 +27,18 @@
 
 
 {% if previous_projects %}
-<h3>Your projects</h3>
+<h4 class="text-info">Your projects</h4>
 <div class="list-group">
-    {% for project in previous_projects %}
+    {% for project in previous_projects|sort(reverse=True, attribute='date_altered')%}
     <a href="{{ url_for('view_project', project_key=project.key.id()) }}"
        class="list-group-item list-group-item-action flex-column align-items-start" ga-on="click"
        ga-event-category="UI" ga-event-action="click on previous project">
         <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ project.name }}</h5>
+            <div>
+                <h5 class="mb-1">{{ project.name }}</h5>
+                {{ project.people|length}} people
+            </div>
+
             <small>Updated {{ project.date_altered | datetime }}</small>
         </div>
     </a>
