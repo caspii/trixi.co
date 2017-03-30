@@ -30,8 +30,6 @@
 
 
 <form action="{{ request.path }}" method=post>
-    <input type='hidden' name='_form_token' value='{{ form_token() }}' />
-
     <div class="card">
         <div class="card-block">
             <!-- <h1 class="card-title"> Create task </h1> -->
@@ -59,10 +57,8 @@
                role="button" class="btn btn-outline-primary">
                 Cancel
             </a>
-
         </div>
     </div>
-
 </form>
 
 {% endblock %}
