@@ -30,6 +30,7 @@
 
 
 <form action="{{ request.path }}" method=post>
+    <input type='hidden' name='_form_token' value='{{ form_token() }}' />
 
     <div class="card">
         <div class="card-block">
