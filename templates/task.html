@@ -33,7 +33,7 @@
         </div>
 
         <div class="card-block ">
-            {{task.description|markdown}}
+            {{task.description|urlize(40, target='_blank')|markdown}}
 
             {% if task.status == 0 %}
                 <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
@@ -56,7 +56,8 @@
 
             <div class="card-text">
                 {% for comment in task.get_comments() %}
-                    <p class="mb-2 ml-2">{{ comment.text }}
+                    <p class="mb-2 ml-2">
+                        {{ comment.text|urlize(40, target='_blank')|markdown }}
                         <span class="text-muted small">&mdash;&nbsp;{{project.people[comment.created_by].name}}
                             ({{ comment.date_created | datetime }})</span>
                         <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
