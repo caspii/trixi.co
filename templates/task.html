@@ -51,38 +51,43 @@
     <div class="card">
         <div class="card-block ">
             <div class="card-title">
-                <h5 class="mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h5>
+                <h5 class="text-info mb-0"><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h5>
             </div>
 
             <div class="card-text">
-                {% for comment in task.get_comments() %}
-                    <p class="mb-2 ml-2">
-                        {{ comment.text|urlize(40, target='_blank')|markdown }}
-                        <span class="text-muted small">&mdash;&nbsp;{{project.people[comment.created_by].name}}
-                            ({{ comment.date_created | datetime }})</span>
-                        <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
-                            data-id="{{ loop.index0 }}"
-                            onclick="$('#delete_comment').val($(this).data('id')); $('#delete_comment_form').submit()">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                    </p>
-                {% endfor %}
+                <!--**********************************-->
+                <!--Comments start here-->
+                <!--**********************************-->
 
-                <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
-                    <div class="form-group mb-1 {% if form.comment.errors %} has-danger {% endif %}">
-                        {{ form.comment(placeholder="Add your comment!", class="form-control", id="comment") }}
-                        {% if form.comment.errors %}
-                        <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
-                        {% endif %}
-                    </div>
-                    <button type="submit" class="btn btn-sm btn-outline-success">
-                        Comment
-                    </button>
-                </form>
+                    {% for comment in task.get_comments() %}
+                        <div >
+                            <span class="text-muted small">{{project.people[comment.created_by].name}}
+                                ({{ comment.date_created | datetime }})</span>
+                            <a href="#" data-toggle="tooltip" data-placement="right" title="Delete comment"
+                                data-id="{{ loop.index0 }}"
+                                onclick="if (confirm('Are you sure?')) { $('#delete_comment').val($(this).data('id')); $('#delete_comment_form').submit() } else {return false}">
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                        </div>
+                        <div >
+                            {{ comment.text|urlize(40, target='_blank')|markdown }}
+                        </div>
+                    {% endfor %}
+
             </div>
 
+            <form action="{{ url_for('view_task', project_key=project.key.id(), task_key=task.key.id()) }}" method=post>
+                <div class="form-group mb-1 {% if form.comment.errors %} has-danger {% endif %}">
+                    {{ form.comment(placeholder="Add your comment", class="form-control", id="comment") }}
+                    {% if form.comment.errors %}
+                    <span class="form-control-feedback">{{ form.comment.errors[0] }}</span>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-sm btn-outline-success">
+                    Comment
+                </button>
+            </form>
         </div>
-    </div>
-    <br>
+    </div><!--End comments card -->
 </div>
 {% endblock %}
