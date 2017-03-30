@@ -41,8 +41,8 @@
                 <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
                     <i class="fa fa-check" aria-hidden="true"></i> Task complete</button>
             {% else %}
-                <button class="btn btn-danger" onclick="$('#toggle_task_status_form').submit()">
-                        </i> Not complete</button>
+                <button class="btn btn-warning" onclick="$('#toggle_task_status_form').submit()">
+                        </i> Undo completed</button>
             {% endif %}
 
             <a class="btn btn-outline-primary" href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}">Edit</a>
