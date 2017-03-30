@@ -17,4 +17,4 @@ def test_task_create():
     browser.find_by_text('Urgent').click()
     browser.find_by_text(' Save').click()
     assert browser.is_text_present('Urgent')
-    assert browser.is_text_present('Owned by DUDE0')
+    assert browser.is_text_present('Assigned to')
