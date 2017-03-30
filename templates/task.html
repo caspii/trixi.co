@@ -26,7 +26,7 @@
         <div class="card-header d-flex w-100 justify-content-between">
             <div>
                 <h5 class="mb-1">{{ task.title }}</h5>
-                <small>Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>.
+                <small><strong>{{ project.people[task.assigned_to].name}}</strong> should complete this.
                 Updated {{ task.date_altered | datetime }}</small>
             </div>
             <h5>{{ macros.render_task_badge(task) }}</h5>

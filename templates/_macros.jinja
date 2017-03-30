@@ -17,7 +17,7 @@
     </div>
     <div class="d-flex w-100 justify-content-between">
         <div class="small mb-1">
-            Owned by <strong>{{ project.people[task.assigned_to].name}}</strong>,
+            <strong>{{ project.people[task.assigned_to].name}}</strong> should complete this,
             Updated {{ task.date_altered | datetime }}
         </div>
         {% if task.comments %}
