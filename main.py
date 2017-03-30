@@ -1,10 +1,9 @@
 import logging
-import random
-from string import ascii_letters, digits
+
 from flask import Flask, render_template, request, flash, redirect, url_for, session, make_response, abort
 from flaskext.markdown import Markdown
-from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm, CommentForm
 
+from forms import ProjectCreateForm, PeopleForm, WhoAreYouForm, TaskForm, CommentForm
 from humantime import pretty_date
 from model import Project, Task
 from session_manager import store_user, get_user, get_previous_projects
@@ -20,28 +19,6 @@ def format_datetime(value):
 
 
 app.jinja_env.filters['datetime'] = format_datetime
-
-
-def generate_form_token():
-    """Sets a token to prevent double posts."""
-    if '_form_token' not in session:
-        form_token = \
-            ''.join([random.choice(ascii_letters + digits) for i in range(32)])
-        session['_form_token'] = form_token
-    return session['_form_token']
-
-
-app.jinja_env.globals['form_token'] = generate_form_token
-
-
-@app.before_request
-def check_form_token():
-    """Checks for a valid form token in POST requests."""
-    print "CHECK TOKEN CALLED"
-    if request.method == 'POST':
-        token = session.pop('_form_token', None)
-        if not token or token != request.form.get('_form_token'):
-            redirect(request.url)
 
 
 @app.route('/')
