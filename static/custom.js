@@ -15,7 +15,7 @@ $(document).ready(function() {
             }
         } else {
             new_value = old_value - 1
-            if (new_value >=2) {
+            if (new_value >=1) {
                 $(field).val(new_value)
         }
     }
