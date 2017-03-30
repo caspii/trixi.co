@@ -17,7 +17,7 @@ def project_created(title, id):
     data = {
         'from': 'Trixi <no-reply@trixi.co>',
         'to': 'Admin <caspar.wrede@gmail.com>',
-        'subject': SUBJECT % title,
+        'subject': SUBJECT % title.encode('ascii', errors='ignore'),
         'text': BODY_TEXT % id
     }
     resp, content = http.request(
