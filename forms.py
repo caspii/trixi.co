@@ -30,7 +30,7 @@ class TaskForm(Form):
     title = StringField('Name for the task', [validators.Length(min=1, max=200), validators.DataRequired()])
     description = TextAreaField('Optional description', [validators.Length(min=0, max=4000)])
     priority = RadioField('priority', choices=[('0', 'Low'), ('1', 'Normal'), ('2', 'Urgent')], default='1')
-    assigned_to = SelectField('Who should complete this task?', coerce=int, choices=[])
+    assigned_to = SelectField('Who is this task assigned to?', coerce=int, choices=[])
 
 
 class CommentForm(Form):
