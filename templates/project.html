@@ -1,30 +1,51 @@
 {% extends "layout.html" %}
 {% import "_macros.jinja" as macros %}
+
+{% block nav %}
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="/">TRIXI</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+        </ul>
+
+
+        <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user" method=post>
+            <div class="d-flex flex-row-reverse">
+                <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
+            </div>
+
+            <input id="user_id" name="user_id" type="hidden">
+            <label class="ml-2 mr-1" for="choosePartyButton">You are </label>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
+                        id="choosePartyButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ project.people[current_user_id].name }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for person in other_people %}
+                    <a data-value="{{ person.id }}"
+                       onclick="$('#user_id').val($(this).data('value')); $('#choose_user').submit()"
+                       class="dropdown-item" href="#">{{ person.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+</nav>
+{% endblock nav %}
+
 {% block body %}
 
 <div id="action_bar" class="d-flex flex-row-reverse">
-    <form class="form-inline" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user"
-          method=post>
-        <input id="user_id" name="user_id" type="hidden">
 
-        <label for="choosePartyButton">You are </label>
-        <div class="dropdown">
-            <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
-                    id="choosePartyButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ project.people[current_user_id].name }}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {% for person in other_people %}
-                <a data-value="{{ person.id }}"
-                   onclick="$('#user_id').val($(this).data('value')); $('#choose_user').submit()"
-                   class="dropdown-item" href="#">{{ person.name }}</a>
-                {% endfor %}
-            </div>
-        </div>
-
-        <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
-    </form>
 
 </div>
 <br>

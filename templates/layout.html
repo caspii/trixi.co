@@ -18,19 +18,10 @@
 </head>
 <body>
 <div class="container">
-    <div class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills float-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    {% block nav %}
 
+    {% endblock nav %}
+    <br>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span

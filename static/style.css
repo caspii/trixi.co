@@ -32,11 +32,6 @@ textarea#description {
   line-height: 3rem;
 }
 
-#action_bar .btn{
-    margin-left: 0.4em;
-    margin-right: 1.2em;
-}
-
 /* Customize container */
 @media (min-width: 48em) {
   .container {
