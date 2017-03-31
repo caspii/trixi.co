@@ -113,7 +113,6 @@ def create_task(project_key):
         assigned_to = current_user_id
         form.assigned_to.default = current_user_id
         form.process()
-    print request.form
     return render_template('edit_task.html', form=form, project=project,
                            assigned_to=assigned_to)
 
