@@ -21,10 +21,12 @@ def format_datetime(value):
 app.jinja_env.filters['datetime'] = format_datetime
 
 
+beta_text = 'Trixi is currently in <strong>Beta</strong>. Some things are still unfinished.'
+
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
-    flash('Trixi is currently in <strong>Beta</strong>. Not everything is working just yet.')
+    flash(beta_text)
     return render_template('landing.html', previous_projects=previous_projects)
 
 
@@ -36,7 +38,7 @@ def new():
         session['person_count'] = form.person_count.data
         return redirect(url_for('people'))
     else:
-        flash('Note that Trixi is currently in Beta!')
+        flash(beta_text)
         return render_template('new_project.html', form=form)
 
 
@@ -44,7 +46,7 @@ def new():
 def people():
     form = PeopleForm(request.form)
     if request.method == 'GET':
-        flash('Note that Trixi is currently in Beta!')
+        flash(beta_text)
         if not session.get('project_name') or not session.get('person_count'):
             # Means user has not come via first page of wizard,
             # therefore redirect to first page
