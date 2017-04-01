@@ -7,7 +7,7 @@ def test_game_name_empty():
     browser.visit('http://localhost:8080/new')
     browser.find_by_id('next').click()
     assert browser.is_text_present('This field is required.')
-    browser.quit()
+    # browser.quit()
 
 
 def test_person_button():
@@ -20,7 +20,7 @@ def test_person_button():
     browser.find_by_text('-').click()
     browser.find_by_id('next').click()
     assert browser.is_text_present("Who's involved?")
-    browser.quit()
+    # browser.quit()
 
 
 def test_too_few_people():
@@ -31,4 +31,4 @@ def test_too_few_people():
     browser.fill('person_count', '-10')
     browser.find_by_id('next').click()
     assert browser.is_text_present('Number must be between')
-    browser.quit()
+    # browser.quit()

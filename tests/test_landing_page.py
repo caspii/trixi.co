@@ -14,7 +14,7 @@ def test_previous_projects_list():
     browser.visit('http://localhost:8080')
     browser.find_by_text('WooHooDoo').click()
     assert browser.is_text_present('WooHooDoo')
-    browser.quit()
+    # browser.quit()
 
 # def test_clear_previous_games_list():
 #     browser = Browser('phantomjs')

@@ -5,7 +5,7 @@ def test_task_create():
     """Create a project + tasks."""
     browser = Browser('phantomjs')
     browser.visit('http://localhost:8080')
-    browser.find_by_text('Start now').click()
+    browser.find_by_text('Try it for free').click()
     browser.fill('project_name', 'My awesome test project')
     browser.find_by_id('next').click()
     for i in range(0, 2):
