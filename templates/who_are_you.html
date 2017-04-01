@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% block meta %} <meta name="robots" content="noindex"> {% endblock %}
 {% macro render_radio_field(field) -%}
 <div data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}

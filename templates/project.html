@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block meta %} <meta name="robots" content="noindex"> {% endblock %}
+{% block title %} {{ project.name }} &mdash; Trixi {% endblock %}
+{% block description %}This is the task list for {{ project.name }} {% endblock %}
 {% import "_macros.jinja" as macros %}
 
 {% block nav %}
