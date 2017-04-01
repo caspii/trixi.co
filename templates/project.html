@@ -2,25 +2,8 @@
 {% import "_macros.jinja" as macros %}
 
 {% block nav %}
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="/">TRIXI</a>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/about">About</a>
-            </li>
-        </ul>
-
-
         <form class="form-inline my-2 my-lg-0" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user" method=post>
-
             <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
-
-
             <input id="user_id" name="user_id" type="hidden">
             <label class="ml-2 mr-1" for="choosePartyButton">You are </label>
             <div class="dropdown">

@@ -18,9 +18,30 @@
 </head>
 <body>
 <div class="container">
-    {% block nav %}
+    <nav class="navbar navbar-toggleable-md navbar navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand " href="/">
+                <span class="fa-stack">
+                    <i class="fa fa-star fa-stack-2x text-info"></i>
+                    <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                </span>
+            Trixi
+        </a>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+            </ul>
 
-    {% endblock nav %}
+        {% block nav %}
+        {% endblock nav %}
+        </div>
+    </nav>
+
     <br>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning alert-dismissible" role="alert">
