@@ -2,6 +2,7 @@
 body {
   padding-bottom: 1.5rem;
   /*font-family: 'Andika', sans-serif;*/
+  /*  background: url("https://www.toptal.com/designers/subtlepatterns/patterns/confectionary.png") */
 }
 
 h1, h2, h3, h4 {
@@ -17,8 +18,13 @@ textarea#description {
     border-bottom: 1px solid lightgrey;
 }
 
+.alert-warning {
+    background-color: rgba(255, 206, 103, 0.31);
+    border-color: #FFCE67;
+    color: #5d5d5d;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
 .marketing,
 .footer {
   padding-right: 1rem;
