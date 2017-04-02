@@ -1,0 +1,32 @@
+{
+  "short_name": "Trixi",
+  "name": "Trixi task management",
+  "icons": [
+    {
+      "src": "static/images/icon16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "static/images/icon48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "static/images/icon96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "static/images/icon128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "static/images/icon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+
+}
