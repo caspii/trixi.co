@@ -26,7 +26,6 @@ beta_text = 'Trixi is currently in <strong>Beta</strong>. Some things are still 
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
-    flash(beta_text)
     return render_template('landing.html', previous_projects=previous_projects)
 
 
@@ -46,7 +45,6 @@ def new():
 def people():
     form = PeopleForm(request.form)
     if request.method == 'GET':
-        flash(beta_text)
         if not session.get('project_name') or not session.get('person_count'):
             # Means user has not come via first page of wizard,
             # therefore redirect to first page
