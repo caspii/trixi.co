@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block meta %} <meta name="robots" content="noindex"> {% endblock %}
+
+{% block body %}
+
+<a href="{{ url_for('view_project', project_key=project.key.id()) }}"
+   role="button" class="btn btn-sm btn-outline-info my-2">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    Back to project
+</a>
+
+<h1>Invite people</h1>
+<p>You can invite the following people to this project: </p>
+<ul>
+  {% for person in project.people %}
+    <li>{{ person.name }}</li>
+  {% endfor %}
+</ul>
+
+<p>Send this link to give <strong>full access</strong></p>
+<div class="input-group">
+  <input type="text" class="form-control" id="edit-link" value="{{ request.url_root }}project/{{ project.key.id()}}" readonly>
+  <div class="input-group-btn">
+    <button class="clip-button btn btn-info" data-clipboard-target="#edit-link" data-toggle="popover"
+            data-placement="top" data-content="Copied!" type="button"  ga-on="click" ga-event-category="UI" ga-event-action="copy share url" ga-event-label="edit">
+      Copy to clipboard
+    </button>
+  </div>
+</div>
+
+{% endblock %}

@@ -208,14 +208,25 @@ def who_are_you(project_key):
         return render_template('who_are_you.html', project=project, form=form)
 
 
+@app.route('/invite/<project_key>')
+def invite(project_key):
+    project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
+    return render_template('invite.html', project=project)
+
+
+@app.route('/edit_project/<project_key>')
+def edit_project(project_key):
+    project = Project.get_project(project_key)
+    if project is None:
+        abort(404)
+    return render_template('edit_project.html', project=project)
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-
-@app.route('/edit_project')
-def edit_project():
-    return render_template('edit_project.html')
 
 
 @app.errorhandler(500)

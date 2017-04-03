@@ -6,14 +6,16 @@
 
 {% block nav %}
         <form class="form-inline my-2 my-lg-0" action="{{ url_for('view_project', project_key=project.key.id()) }}" id="choose_user" method=post>
-            <a class="btn btn-sm btn-outline-info" href="/edit_project" role="button">Edit project</a>
+            <a class="btn btn-sm btn-outline-info mr-2" href="{{ url_for( 'invite', project_key=project.key.id()) }}"
+                role="button"  ga-on="click" ga-event-category="UI" ga-event-action="invite people">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i> Invite people
+            </a>
+            <a class="btn btn-sm btn-outline-info mr-2" href="{{ url_for('edit_project', project_key=project.key.id()) }}" role="button">Edit project</a>
             <input id="user_id" name="user_id" type="hidden">
-            <label class="ml-2 mr-1" for="choosePartyButton">You are </label>
             <div class="dropdown">
-                <button class="btn btn-sm btn-outline-info dropdown-toggle" type="submit" value="yes"
-                        id="choosePartyButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ project.people[current_user_id].name }}
+                <button class="btn btn-sm btn-outline-info dropdown-toggle mt-2 mt-md-0" type="submit" value="yes"
+                        id="choosePartyButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    You are {{ project.people[current_user_id].name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for person in other_people %}
@@ -37,13 +39,15 @@
 
 <div class="text-center">
     <h2>{{ project.name }}</h2>
-    <p class="text-muted">Created by {{project.people[0].name}}. Last update: {{
+    <p class="text-muted small">Created by {{project.people[0].name}}. Last update: {{
         project.date_altered | datetime }} </p>
 
     <a class="btn btn-lg btn-success" href="{{ url_for('create_task', project_key=project.key.id()) }}"
        role="button"
        ga-on="click" ga-event-category="UI" ga-event-action="begin add task">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Add task</a>
+
+
 </div>
 <br>
 <br>
