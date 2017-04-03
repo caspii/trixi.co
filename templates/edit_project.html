@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 {% block meta %} <meta name="robots" content="noindex"> {% endblock %}
 {% block body %}
-
+<a href="{{ url_for('view_project', project_key=project.key.id()) }}"
+   role="button" class="btn btn-sm btn-outline-info my-2">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    Back to project
+</a>
 <h1>Sorry!</h1>
 <p>This isn't implemented yet.</p>
 <p>Once it is you'll be able to change the name of the project as well as the people involved</p>
