@@ -3,6 +3,7 @@ body {
   padding-bottom: 1.5rem;
   /*font-family: 'Andika', sans-serif;*/
   /*  background: url("https://www.toptal.com/designers/subtlepatterns/patterns/confectionary.png") */
+  background-color: floralwhite;
 }
 
 h1, h2, h3, h4 {
@@ -23,6 +24,18 @@ textarea#description {
     border-color: #FFCE67;
     color: #5d5d5d;
 }
+
+.jumbotron {
+    text-align: center;
+    background: none;
+}
+
+.jumbotron .btn {
+    padding: .75rem 1.5rem;
+    margin: .75rem;
+    font-size: 1.5rem;
+}
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .marketing,
@@ -48,15 +61,6 @@ textarea#description {
   margin: 2rem 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-}
-.jumbotron .btn {
-  padding: .75rem 1.5rem;
-  margin: .75rem;
-  font-size: 1.5rem;
-}
 
 /* Supporting marketing content */
 .marketing {
