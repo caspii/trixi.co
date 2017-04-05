@@ -6,11 +6,17 @@ handlers:
 - url: /static
   static_dir: static
   expiration: "2d"
+
 - url: /(.*\.json)
   mime_type: application/json
   static_files: static/\1
   upload: static/(.*\.json)
   expiration: "0m"
+
+- url: /(.*\.(gif|png|jpg))$
+  static_files: static/\1
+  upload: static/.*\.(gif|png|jpg)$
+
 - url: /.*
   script: main.app
   secure: always
