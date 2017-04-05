@@ -11,6 +11,8 @@
                 <i class="fa fa-user-circle-o" aria-hidden="true"></i> Invite people
             </a>
             <a class="btn btn-sm btn-outline-info mr-2" href="{{ url_for('edit_project', project_key=project.key.id()) }}" role="button">Edit project</a>
+
+            {% if project.people | length > 1 %}
             <input id="user_id" name="user_id" type="hidden">
             <div class="dropdown">
                 <button class="btn btn-sm btn-outline-info dropdown-toggle mt-2 mt-md-0" type="submit" value="yes"
@@ -25,6 +27,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
         </form>
 {% endblock nav %}
 
@@ -76,6 +79,7 @@
 <br>
 <br>
 
+{% if project.people | length > 1 %}
 <div class="card">
     <div class="card-header">
         <h4 class="mb-0">Tasks for everyone else</h4>
@@ -94,6 +98,7 @@
 </div>
 <br>
 <br>
+{% endif %}
 
 <div class="card">
     <div class="card-header">
