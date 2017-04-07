@@ -44,6 +44,8 @@
             {{render_radio_field(form.priority)}}
             <div class="card-text form-group {% if form.description.errors %} has-danger {% endif %}">
                 {{ form.description(placeholder="Optional description",class="form-control",id="description") }}
+                <small><i class="fa fa-info-circle" aria-hidden="true"></i>
+                    Pro tip: you can format the description using <a href="http://commonmark.org/help/" target="_blank">Markdown</a></small>
                 {% if form.description.errors %}
                 <span class="form-control-feedback">{{ form.description.errors[0] }}</span>
                 {% endif %}
