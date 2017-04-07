@@ -34,18 +34,18 @@
         </div>
 
         <div class="card-block ">
-            {{task.description|urlize(40, target='_blank')|markdown}}
+            {{task.description|default('_No description given_', true)|urlize(40, target='_blank')|markdown}}
 
             {% if task.status == 0 %}
-                <button class="btn btn-success" onclick="$('#toggle_task_status_form').submit()">
+                <button class="btn btn-success mt-2" onclick="$('#toggle_task_status_form').submit()">
                     <i class="fa fa-check" aria-hidden="true"></i> Task complete</button>
             {% else %}
-                <button class="btn btn-warning" onclick="$('#toggle_task_status_form').submit()">
+                <button class="btn btn-warning mt-2" onclick="$('#toggle_task_status_form').submit()">
                         </i> Undo completed</button>
             {% endif %}
 
-            <a class="btn btn-outline-primary" href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}">Edit</a>
-            <a class="btn btn-outline-primary mt-2 mt-md-0" href="#" onclick="if (confirm('Are you sure you want to delete this task?')) { $('#delete_task').submit() } else {return false}">Delete</a>
+            <a class="btn btn-outline-primary mt-2" href="{{ url_for('edit_task', project_key=project.key.id(), task_key=task.key.id()) }}">Edit</a>
+            <a class="btn btn-outline-primary mt-2" href="#" onclick="if (confirm('Are you sure you want to delete this task?')) { $('#delete_task').submit() } else {return false}">Delete</a>
         </div>
     </div>
     <br>
