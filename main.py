@@ -55,7 +55,7 @@ def people():
             return render_template('people.html', form=form)
     elif request.method == 'POST':
         if form.validate():
-            flash("Whoop! You created a project")
+            flash("Nice! You created a project. Please bookmark this page.")
             project_name = session['project_name']
             people_names = [p.data for p in form.people]
             project_key = Project.new(project_name, people_names)
