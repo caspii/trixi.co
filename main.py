@@ -21,7 +21,7 @@ def format_datetime(value):
 app.jinja_env.filters['datetime'] = format_datetime
 
 
-beta_text = 'Trixi is currently in <strong>Beta</strong>. Some things are still unfinished.'
+beta_text = 'Trixi is currently in <strong>Beta</strong>. Please send feedback.'
 
 @app.route('/')
 def landing():
