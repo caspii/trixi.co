@@ -1,4 +1,4 @@
-This is a project management webapp running on Google App Engine
+Trixi is a project management webapp. It runs on Google App Engine
 
 ## Installing and setup on Ubuntu
 1. Follow [these instructions](https://cloud.google.com/sdk/docs/#deb)
