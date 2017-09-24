@@ -13,8 +13,8 @@ class ProjectCreateForm(Form):
     project_name = StringField('Give your project a name', [validators.Length(min=1, max=200),
                                                             validators.DataRequired()])
     # NOTE: Mix and max people also specified in custom.js
-    person_count = IntegerField('Number of people on this project (not more than 10)',
-                                [validators.NumberRange(min=1, max=10)], default=2)
+    person_count = IntegerField('Number of people on this project (not more than 20)',
+                                [validators.NumberRange(min=1, max=20)], default=2)
 
 
 class PeopleForm(Form):

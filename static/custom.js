@@ -29,7 +29,7 @@ $(document).ready(function() {
         var old_value = parseInt($(field).val())
         if (button.text() == '+') {
                 new_value = old_value + 1
-            if (new_value <=10) {
+            if (new_value <=20) {
                 $(field).val(new_value)
             }
         } else {
@@ -41,5 +41,3 @@ $(document).ready(function() {
     });
 
 });
-
-
