@@ -37,7 +37,7 @@ def new():
         session['person_count'] = form.person_count.data
         return redirect(url_for('people'))
     else:
-        flash(beta_text)
+        # flash(beta_text)
         return render_template('new_project.html', form=form)
 
 
