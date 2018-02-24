@@ -1,4 +1,16 @@
-Trixi is a project management webapp. It runs on Google App Engine
+# Trixi.co
+Trixi is a task management webapp implemented using Python/Flask. It runs on Google App Engine.
+
+[Click here](https://trixi.co/) to see it in production.
+
+## Contributing
+This project is licensed under the MIT license, so you can do whatever you like with it, more or less.
+
+Feel free to create pull-requests for improvements or new features.
+
+**Please note:** I'll only deploy your code to production if I like what you've done and it's in the spirit of simplicity. If you're unsure, ask me first!
+
+
 
 ## Installing and setup on Ubuntu
 1. Follow [these instructions](https://cloud.google.com/sdk/docs/#deb)

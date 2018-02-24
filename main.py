@@ -26,6 +26,7 @@ beta_text = 'Trixi is currently in <strong>Beta</strong>. Please send feedback.'
 @app.route('/')
 def landing():
     previous_projects = get_previous_projects(request)
+    flash("This project is open source. Get the code <a href='https://github.com/caspii/trixi.co'>on Github</a>.")
     return render_template('landing.html', previous_projects=previous_projects)
 
 

@@ -1,10 +1,7 @@
 import base64
 import os
-
 from flask import abort
 from google.appengine.ext import ndb
-
-import sendmail
 
 
 class Person(ndb.Model):
