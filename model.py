@@ -27,8 +27,6 @@ class Project(ndb.Model):
         people = [Person(name=p, id=i) for i, p in enumerate(people_names, 0)]  # Generate id field too
         new_project = Project(id=id, read_only_key=read_only_key, name=name, people=people)
         new_project.put()
-        if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
-            sendmail.project_created(name, id)
         return id
 
     @classmethod
