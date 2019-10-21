@@ -1,7 +1,7 @@
 # Trixi.co
 Trixi is a task management webapp implemented using Python/Flask. It runs on Google App Engine.
 
-[Click here](https://trixi.co/) to see it in production.
+[Click here](https://trixi.casparwre.de/) to see it in production.
 
 ## Contributing
 This project is licensed under the MIT license, so you can do whatever you like with it, more or less.
