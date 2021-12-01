@@ -15,7 +15,6 @@ Feel free to create pull-requests for improvements or new features.
 ## Installing and setup on Ubuntu
 1. Follow [these instructions](https://cloud.google.com/sdk/docs/#deb)
 1. Install this package: `google-cloud-sdk-app-engine-python`
-2. `bower install`
 2. `gcloud init`
 
 
